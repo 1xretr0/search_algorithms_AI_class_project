@@ -1,7 +1,6 @@
 import java.awt.*;
 import java.awt.event.*;
 import javax.swing.*;
-import java.io.*;
 // this class manages the whole interface. could be invoked in the main flow at app class
 public class AppGUI extends JFrame implements ItemListener{
     private static JFrame frame;
@@ -13,16 +12,15 @@ public class AppGUI extends JFrame implements ItemListener{
     private static JButton b_show;
     // lavel declaration
     private static JLabel l, l1;
-    private static JComboBox select_combo;
+    private static JComboBox<String> select_combo;
 
     public static void main(String[] args){
+        AppGUI gui = new AppGUI();
         // set window
         frame = new JFrame("frame");
         frame.setLayout(new FlowLayout());
         frame.setSize(720, 480);
-        // frame.addWindowListener(new CW());
-
-        AppGUI gui = new AppGUI();
+        frame.addWindowListener(gui.new CW());
 
         // global button panel
         button_panel = new JPanel();
@@ -46,7 +44,7 @@ public class AppGUI extends JFrame implements ItemListener{
             "A* Search"
         };
 
-        select_combo = new JComboBox(algorithm_list);
+        select_combo = new JComboBox<String>(algorithm_list);
         select_combo.addItemListener(gui);
 
         // create labels
