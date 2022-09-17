@@ -2,9 +2,10 @@ import java.util.Scanner;
 
 public class App {
     public static void main(String[] args) throws Exception {
-        App app = new App();
-        System.out.println(app.menu());
-
+        // App app = new App();
+        // System.out.println(app.menu());
+        new AppGUI();
+        // TODO
     }
 
     public String menu(){
