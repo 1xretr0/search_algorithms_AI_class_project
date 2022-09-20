@@ -1,18 +1,24 @@
 # search_algorithms_AI_class_project
-This repo contains the files of an example projecct to show and visualize some search Algorithms related with Artificial Intelligence UPAEP class.
+This repo contains the files of an example projecct to show some search Algorithms related with Artificial Intelligence UPAEP class.
+
+## Concept
+The program displays a simple GUI showing a map with some obstacles in order to visualize how the selected search algorithm works and finds a solution. In this case, the solution is the path to exit the map, avoiding the obstacles.
 
 ## Main Classes
-- App: main script class where the whole proccess is run
-- AppGUI: manages the interface. should implement the graphic map of the Mapa class.
-- Algoritmo: computes the chosen search algorithm
-- Mapa: paints the graphic map where the algorithm will work
+- AppGUI: manages the interface, includes the graphic map of the Map class.
+- Algoritmo: computes the chosen search algorithm.
+- Mapa: paints the obstacles and graphic map where the algorithm will work. The search method path is also painted here. 
 
-## Busqueda en Amplitud
+## Showed Search Algorithms
+- Breadth Search Algorithm
+- Depth Search Algorithm
+- Hill Climbing Algorithm
+- Best First Algorithm
+- A* Algorithm
 
-## Busqueda en Profundidad
+## Usage/Examples
 
-## Escalado de Colina
+```
+javac AppGUI.java
+java AppGUI
 
-## Primero el mejor
-
-## A*
