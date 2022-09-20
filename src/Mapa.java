@@ -3,6 +3,17 @@ import java.awt.*;
 import java.awt.geom.*;
 
 public class Mapa extends Canvas{
+    /* Variables declaration */
+    // Boolean to draw vector points on paint method (false)
+    private boolean draw_path;
+    // Matrix to store obstacles positions
+    private boolean obstacles[][];
+
+    public Mapa(){
+        obstacles = new boolean[10][10];
+        setObstacles();
+    }
+
     public void paint(Graphics gc){
         // create Graphics2D variable from Graphics
         Graphics2D gc2D = (Graphics2D) gc;
@@ -16,12 +27,12 @@ public class Mapa extends Canvas{
         gc2D.setPaint(Color.GRAY);
 
         // vertical grid lines
-        for(int i = 0; i <= 500; i = i + 20){
+        for(int i = 0; i <= 500; i = i + 50){
             gc2D.draw(new Line2D.Float(i, 0, i, 500));
         }
 
         // horizontal grid lines
-        for(int i = 0; i <= 500; i = i + 20){
+        for(int i = 0; i <= 500; i = i + 50){
             gc2D.draw(new Line2D.Float(0, i, 500, i));
         }
 
@@ -38,5 +49,13 @@ public class Mapa extends Canvas{
         // vertical borders
         gc2D.draw(new Line2D.Float(1, 0, 1, 500));
         gc2D.draw(new Line2D.Float(500, 0, 500, 500));
+
+        if(draw_path){
+            //TODO
+        }
+    }
+
+    public void setObstacles(){
+        //TODO
     }
 }
