@@ -1,41 +1,48 @@
 import java.awt.*;
 import java.awt.event.*;
 import javax.swing.*;
+
 // this class manages the whole interface. could be invoked in the main flow at app class
 public class AppGUI extends JFrame implements ItemListener{
-    private static JFrame frame;
-    // global button panel and section panels declaration
-    private static JPanel button_panel, select_algo, map;
-    // text fields declaration
+    /* Variables declaration */
+    // Global button panel and section panels declaration
+    private static JPanel CBox_panel, button_panel;
+
+    // Text fields declaration
     private static JTextField t_algo, t_map;
-    // button declaration
+
+    // Button declaration
     private static JButton b_show;
-    // lavel declaration
-    private static JLabel l, l1;
+
+    // Label declaration
+    private static JLabel label1, label2;
+
+    // Multiple option panel declaration
     private static JComboBox<String> select_combo;
 
-    public static void main(String[] args){
-        AppGUI gui = new AppGUI();
-        // set window
-        frame = new JFrame("frame");
-        frame.setLayout(new FlowLayout());
-        frame.setSize(720, 480);
-        frame.addWindowListener(gui.new CW());
+    // Map declaration
+    private static Mapa mapa;
 
-        // global button panel
-        button_panel = new JPanel();
-        // button_panel.setLayout(new GridLayout(2,0));
+    /* Constructor of the AppGUI */
+    // The constructor sets the window, initializes all the panels, textfields, button, labels, combobox and canvas;
+    // and adds all the components to the window
+    public AppGUI(){
+        // Set window
+        super("Search Algorithms");
+        setLayout(new BorderLayout());
+        setSize(517, 611);
+        addWindowListener(new CW());
 
-        // select algorithm panel
-        // select_algo = new JPanel();
-        // select_algo.setLayout(new BorderLayout());
-        // select_algo.add(new JLabel("Select one Search Algorithm to show:"),
-        // "Center");
+        // Set Canvas
+        mapa = new Mapa();
 
-        // add select panel to button panel
-        // button_panel.add(select_algo);
+        // Set Combo box and labels panel
+        CBox_panel = new JPanel(new FlowLayout(0, 20, 5));
 
-        // array of strings of select combo list
+        // Set button panel
+        button_panel = new JPanel(new FlowLayout(1));
+
+        // Array of strings of select combo list
         String algorithm_list[] = {
             "Depth Search",
             "Breadth Search",
@@ -44,40 +51,57 @@ public class AppGUI extends JFrame implements ItemListener{
             "A* Search"
         };
 
+        // Create combo list
         select_combo = new JComboBox<String>(algorithm_list);
-        select_combo.addItemListener(gui);
+        select_combo.addItemListener(this);
 
-        // create labels
-        l = new JLabel("Select the algorithm: ");
-        l1 = new JLabel("Depth Search selected.");
+        // Create labels
+        label1 = new JLabel("Select the algorithm: ");
+        label2 = new JLabel("Depth Search selected.");
 
-        // add label to panel
-        button_panel.add(l);
-        // add combobox to panel
-        button_panel.add(select_combo);
-        button_panel.add(l1);
+        // Add labels and combobox to Combo box panel
+        CBox_panel.add(label1);
+        CBox_panel.add(select_combo);
+        CBox_panel.add(label2);
 
-        // add panels to display
-        frame.add(button_panel);
+        // Create and add button to button panel
+        b_show = new JButton("Show algorithm");
+        button_panel.add(b_show);      
 
-        // display gui
-        frame.setResizable(false);
-        frame.setVisible(true);
+        // Add Combo box panel to display (top)
+        add(CBox_panel, "North");
+
+        // Add map canvas to display (middle)
+        add(mapa, "Center");
+
+        // Add button panel to display (bottom)
+        add(button_panel, "South");
+
+        // Display GUI
+        setResizable(false);
+        setVisible(true);
 
     }
-    // class to manage window close button
+    
+    // Class to manage window close button
     private class CW extends WindowAdapter{
         public void windowClosing(WindowEvent e){
-            frame.setVisible(false);
-            frame.dispose();
+            setVisible(false);
+            dispose();
         }
     }
 
     @Override
     public void itemStateChanged(ItemEvent e) {
         if (e.getSource() == select_combo){
-            l1.setText(select_combo.getSelectedItem() + " selected");
+            label2.setText(select_combo.getSelectedItem() + " selected");
         }
+    }
+
+    /* Main method to run the programm */
+    public static void main(String[] args){
+        AppGUI gui = new AppGUI();
+        
     }
 }
 
