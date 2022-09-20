@@ -8,9 +8,6 @@ public class AppGUI extends JFrame implements ItemListener{
     // Global button panel and section panels declaration
     private static JPanel CBox_panel, button_panel;
 
-    // Text fields declaration
-    private static JTextField t_algo, t_map;
-
     // Button declaration
     private static JButton b_show;
 
@@ -65,8 +62,9 @@ public class AppGUI extends JFrame implements ItemListener{
         CBox_panel.add(label2);
 
         // Create and add button to button panel
-        b_show = new JButton("Show algorithm");
-        button_panel.add(b_show);      
+        b_show = new JButton("Show Algorithm");
+        b_show.addActionListener(new BotonShow()); // add function call
+        button_panel.add(b_show);
 
         // Add Combo box panel to display (top)
         add(CBox_panel, "North");
@@ -82,12 +80,18 @@ public class AppGUI extends JFrame implements ItemListener{
         setVisible(true);
 
     }
-    
+
     // Class to manage window close button
     private class CW extends WindowAdapter{
         public void windowClosing(WindowEvent e){
             setVisible(false);
             dispose();
+        }
+    }
+
+    private class BotonShow implements ActionListener{
+        public void actionPerformed(ActionEvent e){
+
         }
     }
 
@@ -101,7 +105,6 @@ public class AppGUI extends JFrame implements ItemListener{
     /* Main method to run the programm */
     public static void main(String[] args){
         AppGUI gui = new AppGUI();
-        
     }
 }
 
