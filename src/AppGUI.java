@@ -91,7 +91,9 @@ public class AppGUI extends JFrame implements ItemListener{
 
     private class BotonShow implements ActionListener{
         public void actionPerformed(ActionEvent e){
-
+            String algorithm = select_combo.getSelectedItem().toString();
+            System.out.println(algorithm);
+            // TODO
         }
     }
 
