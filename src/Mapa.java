@@ -2,12 +2,14 @@
 import java.awt.*;
 import java.awt.geom.*;
 
-public class Mapa extends Canvas{
+public class Mapa extends Canvas implements Runnable{
     /* Variables declaration */
     // Boolean to draw vector points on paint method (false)
     private boolean draw_path =  false;
     // Matrix to store obstacles positions
     private boolean obstacles[][];
+    // Thread to convert Canvas into a Thread for the GUI
+    private Thread thread;
 
     public Mapa(){
         setObstacles();
@@ -61,21 +63,28 @@ public class Mapa extends Canvas{
             for(int col = 0; col < 10; col++){
                 if(obstacles[row][col])
                     gc.fillRect(col * 50, row * 50, 50, 50);
-                System.out.print("[" + ((obstacles[row][col])?"1":"0") + "]");
             }
-            System.out.print("\n");
         }
 
         // Section where it only enters after the user has chosen an search Algorithm
         if(draw_path){
-            //TODO
+            // TODO
+            try{
+                thread.sleep(100);
+            }catch(InterruptedException e){
+                e.printStackTrace();
+            }
         }
     }
 
-    //
+    // Thread method to convert Canvas into a Thread component
+    public void run(){
+        repaint();
+    }
+
     public void pathFinder(){
         draw_path = true;
-        repaint();
+        thread.start();
     }
 
     public void setObstacles(){
