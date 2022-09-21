@@ -6,13 +6,13 @@ public class Mapa extends Canvas implements Runnable{
     /* Variables declaration */
     // Boolean to draw vector points on paint method (false)
     private boolean draw_path =  false;
-    // Matrix to store obstacles positions
-    private boolean obstacles[][];
     // Thread to convert Canvas into a Thread for the GUI
     private Thread thread;
+    // Algorithm variable to invoke Vector and Array of Arrays methods
+    private Algoritmo algoritmo;
 
-    public Mapa(){
-        setObstacles();
+    public Mapa(Algoritmo algoritmo){
+        this.algoritmo = algoritmo;
     }
 
     public void paint(Graphics gc){
@@ -61,19 +61,39 @@ public class Mapa extends Canvas implements Runnable{
         gc2D.setStroke(new BasicStroke(1.0f));
         for(int row = 0; row < 10; row++){
             for(int col = 0; col < 10; col++){
-                if(obstacles[row][col])
+                // get the obstacles boolean value from the Array of Arrays
+                if(algoritmo.getObstacles(row, col))
                     gc.fillRect(col * 50, row * 50, 50, 50);
             }
         }
 
         // Section where it only enters after the user has chosen an search Algorithm
         if(draw_path){
-            // TODO
             try{
-                thread.sleep(100);
+                // set variables for vector's size
+                int i = 0, size = algoritmo.getVector().size();
+
+                gc2D.setColor(Color.RED);
+                gc2D.setStroke(new BasicStroke(3.0f));
+
+                // Draws the path using the points stored in the vector
+                while(i < size - 1){
+                    double x1 = (double) (algoritmo.getPathPoint(i).getRow() * 50) + 25;
+                    double y1 = (double) (algoritmo.getPathPoint(i).getCol() * 50) + 25;
+                    double x2 = (double) (algoritmo.getPathPoint(i + 1).getRow() * 50) + 25;
+                    double y2 = (double) (algoritmo.getPathPoint(i + 1).getCol() * 50) + 25;
+                    gc2D.draw(new Line2D.Double(y1, x1, y2, x2));
+                    thread.sleep(150);
+                    i++;
+                }
             }catch(InterruptedException e){
                 e.printStackTrace();
             }
+            // Stops thread
+            thread.interrupt();
+
+            // Resets
+            draw_path = false;
         }
     }
 
@@ -82,40 +102,10 @@ public class Mapa extends Canvas implements Runnable{
         repaint();
     }
 
-    public void pathFinder(){
+    // Allows the method paint to draw the path line and starts the thread 
+    public void drawPath(){
         draw_path = true;
+        thread = new Thread(this);
         thread.start();
-    }
-
-    public void setObstacles(){
-        // Initialize new obstacles
-        obstacles = new boolean[10][10];
-
-        /* Test */ 
-        // It is planned to be random or user input
-        /* How obstacles are gonna show in this example
-         *    0  1  2  3  4  5  6  7  8  9
-         * 0 [S][*][*][*][*][*][*][ ][ ][ ]
-         * 1 [ ][*][*][*][ ][ ][ ][ ][*][ ]
-         * 2 [ ][ ][ ][ ][ ][ ][*][ ][*][ ]
-         * 3 [*][ ][ ][*][*][ ][*][ ][*][ ]
-         * 4 [*][*][ ][*][*][ ][*][ ][ ][ ]
-         * 5 [*][*][ ][*][*][*][*][*][ ][*]
-         * 6 [*][*][ ][ ][ ][*][*][ ][ ][*]
-         * 7 [*][*][*][ ][ ][ ][*][ ][ ][*]
-         * 8 [*][*][*][*][ ][ ][ ][ ][ ][*]
-         * 9 [*][*][*][*][ ][ ][*][*][ ][F]
-         */
-        obstacles[0][1] = true; obstacles[0][2] = true; obstacles[0][3] = true; obstacles[0][4] = true; obstacles[0][5] = true; obstacles[0][6] = true; 
-        obstacles[1][2] = true; obstacles[1][2] = true; obstacles[1][2] = true; obstacles[1][8] = true; 
-        obstacles[2][6] = true; obstacles[2][8] = true; 
-        obstacles[3][0] = true; obstacles[3][3] = true; obstacles[3][4] = true; obstacles[3][6] = true; obstacles[3][8] = true; 
-        obstacles[4][0] = true; obstacles[4][1] = true; obstacles[4][3] = true; obstacles[4][4] = true; obstacles[4][6] = true; 
-        obstacles[5][0] = true; obstacles[5][1] = true; obstacles[5][3] = true; obstacles[5][4] = true; obstacles[5][5] = true; obstacles[5][6] = true; obstacles[5][7] = true; obstacles[5][9] = true; 
-        obstacles[6][0] = true; obstacles[6][1] = true; obstacles[6][5] = true; obstacles[6][6] = true; obstacles[6][9] = true; 
-        obstacles[7][0] = true; obstacles[7][1] = true; obstacles[7][2] = true; obstacles[7][6] = true; obstacles[7][9] = true; 
-        obstacles[8][0] = true; obstacles[8][1] = true; obstacles[8][2] = true; obstacles[8][3] = true; obstacles[8][9] = true; 
-        obstacles[9][0] = true; obstacles[9][1] = true; obstacles[9][2] = true; obstacles[9][3] = true; obstacles[9][6] = true; obstacles[9][7] = true; 
-        //TODO
     }
 }

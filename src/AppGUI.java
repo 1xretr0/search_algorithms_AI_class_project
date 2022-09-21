@@ -20,6 +20,9 @@ public class AppGUI extends JFrame implements ItemListener{
     // Map declaration
     private static Mapa mapa;
 
+    // Algorithm declaration
+    private static Algoritmo algoritmo;
+
     /* Constructor of the AppGUI */
     // The constructor sets the window, initializes all the panels, textfields, button, labels, combobox and canvas;
     // and adds all the components to the window
@@ -30,8 +33,11 @@ public class AppGUI extends JFrame implements ItemListener{
         setSize(517, 611);
         addWindowListener(new CW());
 
+        // set Algorythm
+        algoritmo = new Algoritmo();
+
         // Set Canvas
-        mapa = new Mapa();
+        mapa = new Mapa(algoritmo);
 
         // Set Combo box and labels panel
         CBox_panel = new JPanel(new FlowLayout(0, 20, 5));
@@ -93,10 +99,13 @@ public class AppGUI extends JFrame implements ItemListener{
         public void actionPerformed(ActionEvent e){
             String algorithm = select_combo.getSelectedItem().toString();
             System.out.println(algorithm);
+            // Calls the method depending on the algorythm choosed
             // TODO
+            
+            algoritmo.findPath();       // Example
 
-            // path finder method to draw the path line
-            mapa.pathFinder();
+            // draw Path method to draw the path line
+            mapa.drawPath();
         }
     }
 
