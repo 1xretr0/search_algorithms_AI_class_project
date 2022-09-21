@@ -94,6 +94,9 @@ public class AppGUI extends JFrame implements ItemListener{
             String algorithm = select_combo.getSelectedItem().toString();
             System.out.println(algorithm);
             // TODO
+
+            // path finder method to draw the path line
+            mapa.pathFinder();
         }
     }
 
