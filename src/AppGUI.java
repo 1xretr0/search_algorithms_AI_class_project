@@ -87,14 +87,6 @@ public class AppGUI extends JFrame implements ItemListener{
 
     }
 
-    // Class to manage window close button
-    private class CW extends WindowAdapter{
-        public void windowClosing(WindowEvent e){
-            setVisible(false);
-            dispose();
-        }
-    }
-
     private class BotonShow implements ActionListener{
         public void actionPerformed(ActionEvent e){
             String choice = select_combo.getSelectedItem().toString();
@@ -110,6 +102,14 @@ public class AppGUI extends JFrame implements ItemListener{
     public void itemStateChanged(ItemEvent e) {
         if (e.getSource() == select_combo){
             label2.setText(select_combo.getSelectedItem() + " selected");
+        }
+    }
+
+    // Class to manage window close button
+    private class CW extends WindowAdapter{
+        public void windowClosing(WindowEvent e){
+            setVisible(false);
+            dispose();
         }
     }
 

@@ -51,11 +51,14 @@ public class Map extends Canvas implements Runnable{
         gc2D.draw(new Line2D.Float(1, 0, 1, 500));
         gc2D.draw(new Line2D.Float(500, 0, 500, 500));
 
+        /* Start and finish */
+
         // Indicators for start and finish labels
         gc2D.setColor(Color.BLUE);
         gc2D.drawString("S", 5, 15);
         gc2D.drawString("F", 490, 495);
 
+        /* Obstacles */
         // draw obstacles
         gc2D.setColor(Color.BLACK);
         gc2D.setStroke(new BasicStroke(1.0f));
@@ -83,7 +86,7 @@ public class Map extends Canvas implements Runnable{
                     double x2 = (double) (algoritmo.getPathPoint(i + 1).getRow() * 50) + 25;
                     double y2 = (double) (algoritmo.getPathPoint(i + 1).getCol() * 50) + 25;
                     gc2D.draw(new Line2D.Double(y1, x1, y2, x2));
-                    thread.sleep(150);
+                    Thread.sleep(150);
                     i++;
                 }
             }catch(InterruptedException e){
