@@ -2,16 +2,16 @@
 import java.awt.*;
 import java.awt.geom.*;
 
-public class Mapa extends Canvas implements Runnable{
+public class Map extends Canvas implements Runnable{
     /* Variables declaration */
     // Boolean to draw vector points on paint method (false)
     private boolean draw_path =  false;
     // Thread to convert Canvas into a Thread for the GUI
     private Thread thread;
     // Algorithm variable to invoke Vector and Array of Arrays methods
-    private Algoritmo algoritmo;
+    private Algorithm algoritmo;
 
-    public Mapa(Algoritmo algoritmo){
+    public Map(Algorithm algoritmo){
         this.algoritmo = algoritmo;
     }
 
@@ -51,11 +51,14 @@ public class Mapa extends Canvas implements Runnable{
         gc2D.draw(new Line2D.Float(1, 0, 1, 500));
         gc2D.draw(new Line2D.Float(500, 0, 500, 500));
 
+        /* Start and finish */
+
         // Indicators for start and finish labels
         gc2D.setColor(Color.BLUE);
         gc2D.drawString("S", 5, 15);
         gc2D.drawString("F", 490, 495);
 
+        /* Obstacles */
         // draw obstacles
         gc2D.setColor(Color.BLACK);
         gc2D.setStroke(new BasicStroke(1.0f));
@@ -83,7 +86,7 @@ public class Mapa extends Canvas implements Runnable{
                     double x2 = (double) (algoritmo.getPathPoint(i + 1).getRow() * 50) + 25;
                     double y2 = (double) (algoritmo.getPathPoint(i + 1).getCol() * 50) + 25;
                     gc2D.draw(new Line2D.Double(y1, x1, y2, x2));
-                    thread.sleep(150);
+                    Thread.sleep(150);
                     i++;
                 }
             }catch(InterruptedException e){
@@ -102,7 +105,7 @@ public class Mapa extends Canvas implements Runnable{
         repaint();
     }
 
-    // Allows the method paint to draw the path line and starts the thread 
+    // Allows the method paint to draw the path line and starts the thread
     public void drawPath(){
         draw_path = true;
         thread = new Thread(this);
