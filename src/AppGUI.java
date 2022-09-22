@@ -92,17 +92,18 @@ public class AppGUI extends JFrame implements ItemListener{
             String choice = select_combo.getSelectedItem().toString();
 
             // Calls the method depending on the chosen algorithm
-            if (choice == "Breadth Search")
-                algorithm.breadthSearch();
-            else if (choice == "Depth Search")
-                algorithm.depthSearch();
-            else if (choice == "Hill Climbing Search")
-                algorithm.hillSearch();
-            else if (choice == "Best First Search")
-                algorithm.bestSearch();
-            else if (choice == "A* Search")
-                algorithm.aSearch();
+            // if (choice == "Breadth Search")
+            //     algorithm.breadthSearch();
+            // else if (choice == "Depth Search")
+            //     algorithm.depthSearch();
+            // else if (choice == "Hill Climbing Search")
+            //     algorithm.hillSearch();
+            // else if (choice == "Best First Search")
+            //     algorithm.bestSearch();
+            // else if (choice == "A* Search")
+            //     algorithm.aSearch();
 
+            algorithm.findPath();
             // draw Path method to draw the path line
             map.drawPath();
         }
