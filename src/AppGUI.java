@@ -90,8 +90,14 @@ public class AppGUI extends JFrame implements ItemListener{
     private class BotonShow implements ActionListener{
         public void actionPerformed(ActionEvent e){
             String choice = select_combo.getSelectedItem().toString();
+
             // Calls the method depending on the chosen algorithm
-            algorithm.findPath();       // Example
+            if (choice == "Depth Search"){
+                algorithm.breathSearch();
+            }
+            else{
+                return;
+            }
 
             // draw Path method to draw the path line
             map.drawPath();
