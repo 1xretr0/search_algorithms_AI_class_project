@@ -111,6 +111,21 @@ public class Algorithm {
         printVector();
     }
 
-    /* ----------------TODO--------------- */
-    // create the search algorithms functions
+    public void breathSearch(){
+
+        // Initialize vector and row, col;
+        vector = new Vector<PathPoints>(1);
+        int row = 0, col = 0;
+
+        // Initialize queue
+        Queue<PathPoints> q = new LinkedList<>();
+        PathPoints initial_point = new PathPoints<>(0, 0);
+
+        q.add(initial_point);       // set initial queue state
+        boolean found = false;      // found flag
+
+        // while (q.size() > 0 && found == false){
+
+        // }
+    }
 }
