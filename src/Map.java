@@ -2,16 +2,16 @@
 import java.awt.*;
 import java.awt.geom.*;
 
-public class Mapa extends Canvas implements Runnable{
+public class Map extends Canvas implements Runnable{
     /* Variables declaration */
     // Boolean to draw vector points on paint method (false)
     private boolean draw_path =  false;
     // Thread to convert Canvas into a Thread for the GUI
     private Thread thread;
     // Algorithm variable to invoke Vector and Array of Arrays methods
-    private Algoritmo algoritmo;
+    private Algorithm algoritmo;
 
-    public Mapa(Algoritmo algoritmo){
+    public Map(Algorithm algoritmo){
         this.algoritmo = algoritmo;
     }
 
@@ -102,7 +102,7 @@ public class Mapa extends Canvas implements Runnable{
         repaint();
     }
 
-    // Allows the method paint to draw the path line and starts the thread 
+    // Allows the method paint to draw the path line and starts the thread
     public void drawPath(){
         draw_path = true;
         thread = new Thread(this);

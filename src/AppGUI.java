@@ -18,10 +18,10 @@ public class AppGUI extends JFrame implements ItemListener{
     private static JComboBox<String> select_combo;
 
     // Map declaration
-    private static Mapa mapa;
+    private static Map map;
 
     // Algorithm declaration
-    private static Algoritmo algoritmo;
+    private static Algorithm algorithm;
 
     /* Constructor of the AppGUI */
     // The constructor sets the window, initializes all the panels, textfields, button, labels, combobox and canvas;
@@ -33,11 +33,11 @@ public class AppGUI extends JFrame implements ItemListener{
         setSize(517, 611);
         addWindowListener(new CW());
 
-        // set Algorythm
-        algoritmo = new Algoritmo();
+        // set Algorithm
+        algorithm = new Algorithm();
 
         // Set Canvas
-        mapa = new Mapa(algoritmo);
+        map = new Map(algorithm);
 
         // Set Combo box and labels panel
         CBox_panel = new JPanel(new FlowLayout(0, 20, 5));
@@ -76,7 +76,7 @@ public class AppGUI extends JFrame implements ItemListener{
         add(CBox_panel, "North");
 
         // Add map canvas to display (middle)
-        add(mapa, "Center");
+        add(map, "Center");
 
         // Add button panel to display (bottom)
         add(button_panel, "South");
@@ -97,15 +97,12 @@ public class AppGUI extends JFrame implements ItemListener{
 
     private class BotonShow implements ActionListener{
         public void actionPerformed(ActionEvent e){
-            String algorithm = select_combo.getSelectedItem().toString();
-            System.out.println(algorithm);
-            // Calls the method depending on the algorythm choosed
-            // TODO
-            
-            algoritmo.findPath();       // Example
+            String choice = select_combo.getSelectedItem().toString();
+            // Calls the method depending on the chosen algorithm
+            algorithm.findPath();       // Example
 
             // draw Path method to draw the path line
-            mapa.drawPath();
+            map.drawPath();
         }
     }
 
@@ -121,5 +118,3 @@ public class AppGUI extends JFrame implements ItemListener{
         AppGUI gui = new AppGUI();
     }
 }
-
-
