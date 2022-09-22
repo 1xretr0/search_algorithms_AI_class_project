@@ -47,8 +47,8 @@ public class AppGUI extends JFrame implements ItemListener{
 
         // Array of strings of select combo list
         String algorithm_list[] = {
-            "Depth Search",
             "Breadth Search",
+            "Depth Search",
             "Hill Climbing Search",
             "Best First Search",
             "A* Search"
@@ -60,7 +60,7 @@ public class AppGUI extends JFrame implements ItemListener{
 
         // Create labels
         label1 = new JLabel("Select the algorithm: ");
-        label2 = new JLabel("Depth Search selected.");
+        label2 = new JLabel("Breadth Search selected.");
 
         // Add labels and combobox to Combo box panel
         CBox_panel.add(label1);
@@ -92,12 +92,16 @@ public class AppGUI extends JFrame implements ItemListener{
             String choice = select_combo.getSelectedItem().toString();
 
             // Calls the method depending on the chosen algorithm
-            if (choice == "Depth Search"){
-                algorithm.breathSearch();
-            }
-            else{
-                return;
-            }
+            if (choice == "Breadth Search")
+                algorithm.breadthSearch();
+            else if (choice == "Depth Search")
+                algorithm.depthSearch();
+            else if (choice == "Hill Climbing Search")
+                algorithm.hillSearch();
+            else if (choice == "Best First Search")
+                algorithm.bestSearch();
+            else if (choice == "A* Search")
+                algorithm.aSearch();
 
             // draw Path method to draw the path line
             map.drawPath();

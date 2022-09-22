@@ -111,7 +111,7 @@ public class Algorithm {
         printVector();
     }
 
-    public void breathSearch(){
+    public void breadthSearch(){
 
         // Initialize vector and row, col;
         vector = new Vector<PathPoints>(1);
@@ -127,5 +127,21 @@ public class Algorithm {
         // while (q.size() > 0 && found == false){
 
         // }
+    }
+
+    public void depthSearch(){
+        /* -------------TODO------------- */
+    }
+
+    public void hillSearch(){
+        /* -------------TODO------------- */
+    }
+
+    public void bestSearch(){
+        /* -------------TODO------------- */
+    }
+
+    public void aSearch(){
+        /* -------------TODO------------- */
     }
 }
