@@ -121,12 +121,12 @@ public class Algorithm {
         Queue<PathPoints> q = new LinkedList<>();
         PathPoints initial_point = new PathPoints<>(0, 0);
 
-        q.add(initial_point);       // set initial queue state
+        // q.add(initial_point);       // set initial queue state
         boolean found = false;      // found flag
 
-        // while (q.size() > 0 && found == false){
-
-        // }
+        while (!q.isEmpty() && !found){
+            /* ------------TODO---------- */
+        }
     }
 
     public void depthSearch(){
