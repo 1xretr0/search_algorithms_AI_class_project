@@ -87,6 +87,8 @@ public class Map extends Canvas implements Runnable{
                     double y2 = (double) (algoritmo.getPathPoint(i + 1).getCol() * 50) + 25;
                     gc2D.draw(new Line2D.Double(y1, x1, y2, x2));
                     Thread.sleep(150);
+                    if(algoritmo.getPathPoint(i + 1).getRow() == 9 && algoritmo.getPathPoint(i + 1).getCol() == 9)
+                        break;
                     i++;
                 }
             }catch(InterruptedException e){
