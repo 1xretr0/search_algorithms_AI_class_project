@@ -37,53 +37,7 @@ public class Algorithm {
             if(search.getRow() == point.getRow() && search.getCol() == point.getCol())
                 return true;
         }
-
         return false;
-    }
-
-    /* Example algorithm to test the map */
-    // Will be changed in future releases
-    public void findPath(){
-        // Initialize vector and row, col;
-        vector = new Vector<PathPoints>(1);
-        int row = 0, col = 0;
-
-        // flags to change direcction
-        boolean down = true, right = true;
-
-        while(!(row == 9 && col == 9)){
-            // Create new point
-            PathPoints point;
-
-            // set the initial position on vector
-            if(row == 0 && col == 0){
-                point = new PathPoints<>(row, col);
-                vector.add(point);
-            }
-
-            // Search downwards
-            if(down && row < 9 && !obstacles[row + 1][col]){
-                row++;
-                point = new PathPoints<>(row, col);
-                vector.add(point);
-            }
-            // Search right
-            else if(right && col < 9 && !obstacles[row][col + 1]){
-                col++;
-                down = true;
-                point = new PathPoints<>(row, col);
-                vector.add(point);
-            }
-            // Search upwards
-            else if(!obstacles[row - 1][col]){
-                row--;
-                down = false;
-                point = new PathPoints<>(row, col);
-                vector.add(point);
-            }
-        }
-
-        printVector();
     }
 
     public void breadthSearch(){
@@ -167,7 +121,6 @@ public class Algorithm {
                 }
             }
         }
-        printVector();
     }
 
     public void depthSearch(){
