@@ -9,7 +9,7 @@ public class Algorithm {
     private Vector<PathPoints> vector;
 
     public Algorithm(){
-        setObstacles();
+        setObstacles(1);
     }
 
     // returns the boolean value of the Array of arrays
@@ -30,7 +30,7 @@ public class Algorithm {
     public void printVector(){
         System.out.println(vector);
     }
-    
+
     public boolean compareInVector(PathPoints point){
         // Searchs in the vector if the point has been added before, so it doesn't add it again
         for(PathPoints search : vector){
@@ -62,7 +62,7 @@ public class Algorithm {
             // removes and stores head from queue (current point algorythm is stanging on)
             PathPoints current_point = queue.remove();
             row = current_point.getRow();
-            col = current_point.getCol();     
+            col = current_point.getCol();
 
             // If the current point is the end exits the cycle
             if(current_point.getRow() == 9 && current_point.getCol() == 9){
@@ -136,9 +136,10 @@ public class Algorithm {
 
         // Initialize stack
         Stack<PathPoints> stack = new Stack<>();
-        PathPoints initial_point = new PathPoints<>(0, 0);
 
+        PathPoints initial_point = new PathPoints<>(0, 0);
         stack.push(initial_point);       // set initial stack state
+
         boolean found = false;          // found flag
 
         // while stack is NOT empty AND haven't found the end, do:
@@ -146,9 +147,9 @@ public class Algorithm {
             // removes and stores head from stack (current point algorythm is stanging on)
             PathPoints current_point = stack.pop();
             vector.add(current_point);
-            
+
             row = current_point.getRow();
-            col = current_point.getCol();     
+            col = current_point.getCol();
 
             // If the current point is the end exits the cycle
             if(current_point.getRow() == 9 && current_point.getCol() == 9){
@@ -208,7 +209,35 @@ public class Algorithm {
     }
 
     public void hillSearch(){
-        /* -------------TODO------------- */
+        // Initialize vector, row, col and the new_point variables
+        vector = new Vector<PathPoints>(1);
+        int row = 0, col = 0;
+
+        PathPoints initial_point = new PathPoints<>(0, 0);
+        vector.add(initial_point);
+
+        // Initialize array to keep points to compute w algorithm
+        ArrayList<PathPoints> point_array = new ArrayList<PathPoints>();
+
+        PathPoints current_point = initial_point;
+
+        PathPoints new_point;
+        while ((current_point.getRow() != 9 && current_point.getCol() != 9) ||
+        current_point.changed()){
+            /* Search Upwards */
+            // Looks if Index in range AND if there's not an obstacle in that index
+            if (row > 0 && !obstacles[row - 1][col]) {
+                // Creates a point above the current position
+                new_point = new PathPoints<>(current_point.getRow() - 1, current_point.getCol());
+
+                // If the point was added before, it doesn't add again
+                if (!compareInVector(new_point)) {
+                    point_array.add(new_point);
+
+                    /* -----------------TODO------------- */
+                }
+            }
+        }
     }
 
     public void bestSearch(){
@@ -220,10 +249,10 @@ public class Algorithm {
     }
 
     // Initialize new obstacles
-    public void setObstacles(){
+    public void setObstacles(int t){
         obstacles = new boolean[10][10];
-        
-        int template = 1;
+
+        int template = t;
 
         switch(template){       // MANUAL CHANGE
             case 0:{
@@ -289,16 +318,16 @@ public class Algorithm {
                 * 9 [*][*][*][*][ ][ ][ ][ ][ ][F]
                 */
 
-                obstacles[0][2] = true; obstacles[0][3] = true; obstacles[0][4] = true; obstacles[0][5] = true; obstacles[0][6] = true; obstacles[0][7] = true; obstacles[0][8] = true; obstacles[0][9] = true; 
-                obstacles[1][4] = true; obstacles[1][5] = true; obstacles[1][6] = true; obstacles[1][7] = true; obstacles[1][8] = true; obstacles[1][9] = true; 
-                obstacles[2][0] = true; obstacles[2][6] = true; obstacles[2][7] = true; obstacles[2][8] = true; obstacles[2][9] = true; 
-                obstacles[3][0] = true; obstacles[3][3] = true; obstacles[3][8] = true; obstacles[3][9] = true; 
+                obstacles[0][2] = true; obstacles[0][3] = true; obstacles[0][4] = true; obstacles[0][5] = true; obstacles[0][6] = true; obstacles[0][7] = true; obstacles[0][8] = true; obstacles[0][9] = true;
+                obstacles[1][4] = true; obstacles[1][5] = true; obstacles[1][6] = true; obstacles[1][7] = true; obstacles[1][8] = true; obstacles[1][9] = true;
+                obstacles[2][0] = true; obstacles[2][6] = true; obstacles[2][7] = true; obstacles[2][8] = true; obstacles[2][9] = true;
+                obstacles[3][0] = true; obstacles[3][3] = true; obstacles[3][8] = true; obstacles[3][9] = true;
                 obstacles[4][0] = true; obstacles[4][1] = true; obstacles[4][4] = true; obstacles[4][5] = true; obstacles[4][8] = true;
                 obstacles[5][0] = true; obstacles[5][1] = true; obstacles[5][4] = true; obstacles[5][5] = true; obstacles[5][6] = true; obstacles[5][7] = true;
-                obstacles[6][0] = true; obstacles[6][1] = true; obstacles[6][5] = true; obstacles[6][6] = true; obstacles[6][7] = true; 
+                obstacles[6][0] = true; obstacles[6][1] = true; obstacles[6][5] = true; obstacles[6][6] = true; obstacles[6][7] = true;
                 obstacles[7][0] = true; obstacles[7][1] = true; obstacles[7][5] = true; obstacles[7][6] = true; obstacles[7][7] = true;
-                obstacles[8][0] = true; obstacles[8][1] = true; 
-                obstacles[9][0] = true; obstacles[9][1] = true; obstacles[9][2] = true; obstacles[9][3] = true; 
+                obstacles[8][0] = true; obstacles[8][1] = true;
+                obstacles[9][0] = true; obstacles[9][1] = true; obstacles[9][2] = true; obstacles[9][3] = true;
                 break;
             }
             case 3:{
@@ -317,14 +346,14 @@ public class Algorithm {
                 * 8 [*][*][ ][ ][*][*][*][*][ ][ ]
                 * 9 [*][*][ ][ ][ ][ ][ ][ ][ ][F]
                 */
-                obstacles[2][3] = true; obstacles[2][4] = true; obstacles[2][5] = true; 
-                obstacles[3][2] = true; obstacles[3][5] = true; obstacles[3][6] = true; 
-                obstacles[4][0] = true; obstacles[4][1] = true; obstacles[4][2] = true; obstacles[4][5] = true; obstacles[4][6] = true; obstacles[4][7] = true; 
-                obstacles[5][0] = true; obstacles[5][1] = true; obstacles[5][2] = true; obstacles[5][5] = true; obstacles[5][6] = true; obstacles[5][7] = true; 
-                obstacles[6][2] = true; obstacles[6][3] = true; obstacles[6][4] = true; obstacles[6][5] = true; obstacles[6][6] = true; obstacles[6][7] = true; 
-                obstacles[7][3] = true; obstacles[7][4] = true; obstacles[7][5] = true; obstacles[7][6] = true; obstacles[7][7] = true; 
-                obstacles[8][0] = true; obstacles[8][1] = true; obstacles[8][4] = true; obstacles[8][5] = true; obstacles[8][6] = true; obstacles[8][7] = true; 
-                obstacles[9][0] = true; obstacles[9][1] = true; 
+                obstacles[2][3] = true; obstacles[2][4] = true; obstacles[2][5] = true;
+                obstacles[3][2] = true; obstacles[3][5] = true; obstacles[3][6] = true;
+                obstacles[4][0] = true; obstacles[4][1] = true; obstacles[4][2] = true; obstacles[4][5] = true; obstacles[4][6] = true; obstacles[4][7] = true;
+                obstacles[5][0] = true; obstacles[5][1] = true; obstacles[5][2] = true; obstacles[5][5] = true; obstacles[5][6] = true; obstacles[5][7] = true;
+                obstacles[6][2] = true; obstacles[6][3] = true; obstacles[6][4] = true; obstacles[6][5] = true; obstacles[6][6] = true; obstacles[6][7] = true;
+                obstacles[7][3] = true; obstacles[7][4] = true; obstacles[7][5] = true; obstacles[7][6] = true; obstacles[7][7] = true;
+                obstacles[8][0] = true; obstacles[8][1] = true; obstacles[8][4] = true; obstacles[8][5] = true; obstacles[8][6] = true; obstacles[8][7] = true;
+                obstacles[9][0] = true; obstacles[9][1] = true;
                 break;
             }
         }
