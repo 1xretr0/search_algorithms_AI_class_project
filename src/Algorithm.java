@@ -9,7 +9,7 @@ public class Algorithm {
     private Vector<PathPoints> vector;
 
     public Algorithm(){
-        setObstacles(1);
+        setObstacles(0);
     }
 
     // returns the boolean value of the Array of arrays
@@ -222,9 +222,9 @@ public class Algorithm {
         PathPoints current_point = initial_point;
 
         PathPoints new_point;
-        while ((current_point.getRow() != 9 && current_point.getCol() != 9) ||
+        /*while ((current_point.getRow() != 9 && current_point.getCol() != 9) ||
         current_point.changed()){
-            /* Search Upwards */
+            /* Search Upwards *
             // Looks if Index in range AND if there's not an obstacle in that index
             if (row > 0 && !obstacles[row - 1][col]) {
                 // Creates a point above the current position
@@ -234,10 +234,10 @@ public class Algorithm {
                 if (!compareInVector(new_point)) {
                     point_array.add(new_point);
 
-                    /* -----------------TODO------------- */
+                    /* -----------------TODO------------- *
                 }
             }
-        }
+        }*/
     }
 
     public void bestSearch(){

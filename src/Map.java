@@ -9,10 +9,10 @@ public class Map extends Canvas implements Runnable{
     // Thread to convert Canvas into a Thread for the GUI
     private Thread thread;
     // Algorithm variable to invoke Vector and Array of Arrays methods
-    private Algorithm algoritmo;
+    private Algorithm algorithm;
 
-    public Map(Algorithm algoritmo){
-        this.algoritmo = algoritmo;
+    public Map(Algorithm algorithm){
+        this.algorithm = algorithm;
     }
 
     public void paint(Graphics gc){
@@ -65,7 +65,7 @@ public class Map extends Canvas implements Runnable{
         for(int row = 0; row < 10; row++){
             for(int col = 0; col < 10; col++){
                 // get the obstacles boolean value from the Array of Arrays
-                if(algoritmo.getObstacles(row, col))
+                if(algorithm.getObstacles(row, col))
                     gc.fillRect(col * 50, row * 50, 50, 50);
             }
         }
@@ -74,20 +74,20 @@ public class Map extends Canvas implements Runnable{
         if(draw_path){
             try{
                 // set variables for vector's size
-                int i = 0, size = algoritmo.getVector().size();
+                int i = 0, size = algorithm.getVector().size();
 
                 gc2D.setColor(Color.RED);
                 gc2D.setStroke(new BasicStroke(3.0f));
 
                 // Draws the path using the points stored in the vector
                 while(i < size - 1){
-                    double x1 = (double) (algoritmo.getPathPoint(i).getRow() * 50) + 25;
-                    double y1 = (double) (algoritmo.getPathPoint(i).getCol() * 50) + 25;
-                    double x2 = (double) (algoritmo.getPathPoint(i + 1).getRow() * 50) + 25;
-                    double y2 = (double) (algoritmo.getPathPoint(i + 1).getCol() * 50) + 25;
+                    double x1 = (double) (algorithm.getPathPoint(i).getRow() * 50) + 25;
+                    double y1 = (double) (algorithm.getPathPoint(i).getCol() * 50) + 25;
+                    double x2 = (double) (algorithm.getPathPoint(i + 1).getRow() * 50) + 25;
+                    double y2 = (double) (algorithm.getPathPoint(i + 1).getCol() * 50) + 25;
                     gc2D.draw(new Line2D.Double(y1, x1, y2, x2));
                     Thread.sleep(150);
-                    if(algoritmo.getPathPoint(i + 1).getRow() == 9 && algoritmo.getPathPoint(i + 1).getCol() == 9)
+                    if(algorithm.getPathPoint(i + 1).getRow() == 9 && algorithm.getPathPoint(i + 1).getCol() == 9)
                         break;
                     i++;
                 }
