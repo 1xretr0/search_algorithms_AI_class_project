@@ -216,15 +216,12 @@ public class Algorithm {
         PathPoints initial_point = new PathPoints<>(0, 0);
         vector.add(initial_point);
 
-        // Initialize array to keep points to compute w algorithm
-        ArrayList<PathPoints> point_array = new ArrayList<PathPoints>();
-
-        PathPoints current_point = initial_point;
+        // PathPoints current_point = initial_point;
+        PathPoints current_point = new PathPoints<>(initial_point.getRow(), initial_point.getCol());
 
         PathPoints new_point;
-        /*while ((current_point.getRow() != 9 && current_point.getCol() != 9) ||
-        current_point.changed()){
-            /* Search Upwards *
+        while (current_point.getRow() != 9 && current_point.getCol() != 9){
+
             // Looks if Index in range AND if there's not an obstacle in that index
             if (row > 0 && !obstacles[row - 1][col]) {
                 // Creates a point above the current position
@@ -232,12 +229,11 @@ public class Algorithm {
 
                 // If the point was added before, it doesn't add again
                 if (!compareInVector(new_point)) {
-                    point_array.add(new_point);
+                    vector.add(new_point);
 
-                    /* -----------------TODO------------- *
                 }
             }
-        }*/
+        }
     }
 
     public void bestSearch(){
