@@ -258,8 +258,12 @@ public class Algorithm {
     }
 
     // EVALUATION FUNCTION
-	private int distance(){
-		/* ------------TODO--------------- */
+	private int distance(PathPoints point){
+        // Evaluation is how close the point is to the end, lower distance equals better evaluation
+        int row_dist = 9 - point.getRow();
+        int col_dist = 9 - point.getCol();
+
+        return row_dist + col_dist;
 	}
 
 	// Initialize new obstacles
