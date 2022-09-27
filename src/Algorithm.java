@@ -1,6 +1,7 @@
 // this class computes the chosen search algorithm using the matrix obstacles map and a vector to store the path
 // used by the algorithm class to get to the finish
 
+import java.io.*;
 import java.util.*;
 public class Algorithm {
     // Array of Arrays to store obstacles positions
@@ -8,7 +9,8 @@ public class Algorithm {
     // Vector to store the path chosen by the algorythm (vector of type PathPoints)
     private Vector<PathPoints> vector;
 
-    public Algorithm(){
+    // CLASS CONSTRUCTOR
+	public Algorithm(){
         setObstacles(0);
     }
 
@@ -40,7 +42,8 @@ public class Algorithm {
         return false;
     }
 
-    public void breadthSearch(){
+    // BREADTH SEARCH ALGORITHM
+	public void breadthSearch(){
         // Initialize vector, row, col and the new_point variables
         vector = new Vector<PathPoints>(1);
         int row = 0, col = 0;
@@ -125,7 +128,8 @@ public class Algorithm {
         }
     }
 
-    public void depthSearch(){
+    // DEPTH SEARCH ALGORITHM
+	public void depthSearch(){
         // Initialize vector, row, col and the new_point variables
         vector = new Vector<PathPoints>(1);
         int row = 0, col = 0;
@@ -208,43 +212,57 @@ public class Algorithm {
         }
     }
 
-    public void hillSearch(){
-        // Initialize vector, row, col and the new_point variables
+    // HILL SEARCH ALGORITHM
+	public void hillSearch(){
+        // Initialize vector, row, col
         vector = new Vector<PathPoints>(1);
         int row = 0, col = 0;
 
+        // set and add initial point
         PathPoints initial_point = new PathPoints<>(0, 0);
         vector.add(initial_point);
 
         // PathPoints current_point = initial_point;
         PathPoints current_point = new PathPoints<>(initial_point.getRow(), initial_point.getCol());
 
+        // declare new point var
         PathPoints new_point;
+
+		// initialize map to store evaluated points with its distance value
+		HashMap<PathPoints, Integer> evaluated_points = new HashMap<PathPoints, Integer>();
+
+        // while the current point is not the goal point
         while (current_point.getRow() != 9 && current_point.getCol() != 9){
+			/* Search Upwards */
+			// Looks if Index in range AND if there's not an obstacle in that index
+			if (row > 0 && !obstacles[row - 1][col]) {
+				// Creates a point above the current position
+				new_point = new PathPoints<>(current_point.getRow() - 1, current_point.getCol());
 
-            // Looks if Index in range AND if there's not an obstacle in that index
-            if (row > 0 && !obstacles[row - 1][col]) {
-                // Creates a point above the current position
-                new_point = new PathPoints<>(current_point.getRow() - 1, current_point.getCol());
-
-                // If the point was added before, it doesn't add again
-                if (!compareInVector(new_point)) {
-                    vector.add(new_point);
-
-                }
-            }
+				// If the point was added before, it doesn't add again
+				if (!compareInVector(new_point)) {
+					/* ---------------TODO---------------- */
+				}
+			}
         }
     }
 
-    public void bestSearch(){
+    // BEST FIRST SEARCH ALGORITHM
+	public void bestSearch(){
         /* -------------TODO------------- */
     }
 
-    public void aSearch(){
+    // A* SEARCH ALGORITHM
+	public void aSearch(){
         /* -------------TODO------------- */
     }
 
-    // Initialize new obstacles
+    // EVALUATION FUNCTION
+	private int distance(){
+		/* ------------TODO--------------- */
+	}
+
+	// Initialize new obstacles
     public void setObstacles(int t){
         obstacles = new boolean[10][10];
 
@@ -353,6 +371,5 @@ public class Algorithm {
                 break;
             }
         }
-        //TODO
     }
 }
