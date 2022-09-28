@@ -48,7 +48,7 @@ public class Algorithm {
         PathPoints maxValuePoint = new PathPoints(0, 0);
         for(PathPoints point : hashmap.keySet()){
             if(hashmap.get(point) < max){
-                maxValuePoint = new PathPoints(point.getRow(), point.getCol());
+                maxValuePoint = point;
                 max = hashmap.get(point);
             }
         }
@@ -270,7 +270,6 @@ public class Algorithm {
         // set, evaluate and add initial point
         PathPoints initial_point = new PathPoints(0, 0);
         evaluated_points.put(initial_point, distance(initial_point));
-        vector.add(initial_point);
 
         while(!evaluated_points.isEmpty()){
             // Get Point with max Value from HashMap
@@ -278,6 +277,7 @@ public class Algorithm {
             evaluated_points.remove(current_point);
             vector.add(current_point);
             System.out.println(evaluated_points);
+            System.out.println(vector);
 
             row = current_point.getRow();
             col = current_point.getCol();
@@ -329,7 +329,6 @@ public class Algorithm {
             if(col < 9 && !obstacles[row][col + 1]){
                 // Creates a point to the right of the current position
                 new_point = new PathPoints(current_point.getRow(), current_point.getCol() + 1);
-                vector.add(current_point);
 
                 // If the point was added before, it doesn't add again
                 if(!compareInVector(new_point)){
