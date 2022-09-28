@@ -44,10 +44,10 @@ public class Algorithm {
 
     // Searchs for the max value in the Hashmap
     public PathPoints maxValuePoint(HashMap<PathPoints, Integer> hashmap){
-        int max = 0;
+        int max = 18;
         PathPoints maxValuePoint = new PathPoints<>(0, 0);
         for(PathPoints point : hashmap.keySet()){
-            if(hashmap.get(point) >= max){
+            if(hashmap.get(point) < max){
                 maxValuePoint = new PathPoints<>(point.getRow(), point.getCol());
                 max = hashmap.get(point);
             }
@@ -72,10 +72,9 @@ public class Algorithm {
 
         queue.add(initial_point);       // set initial queue state
         vector.add(initial_point);      // Adds initial point to the path vector
-        boolean found = false;          // found flag
 
         // while queue is NOT empty AND haven't found the end, do:
-        while (!queue.isEmpty() && !found){
+        while (!queue.isEmpty()){
             // removes and stores head from queue (current point algorythm is stanging on)
             PathPoints current_point = queue.remove();
             row = current_point.getRow();
@@ -84,7 +83,6 @@ public class Algorithm {
             // If the current point is the end exits the cycle
             if(current_point.getRow() == 9 && current_point.getCol() == 9){
                 queue.clear();      // Empty queue
-                found = true;       // Reached end
                 break;
             }
 
@@ -158,10 +156,8 @@ public class Algorithm {
         PathPoints initial_point = new PathPoints<>(0, 0);
         stack.push(initial_point);       // set initial stack state
 
-        boolean found = false;          // found flag
-
         // while stack is NOT empty AND haven't found the end, do:
-        while (!stack.isEmpty() && !found){
+        while (!stack.isEmpty()){
             // removes and stores head from stack (current point algorythm is stanging on)
             PathPoints current_point = stack.pop();
             vector.add(current_point);
@@ -172,7 +168,6 @@ public class Algorithm {
             // If the current point is the end exits the cycle
             if(current_point.getRow() == 9 && current_point.getCol() == 9){
                 stack.clear();      // Empty stack
-                found = true;       // Reached end
                 break;
             }
 
@@ -285,13 +280,7 @@ public class Algorithm {
 			/* Search Upwards */
 			// Looks if Index in range AND if there's not an obstacle in that index
 			if (row > 0 && !obstacles[row - 1][col]) {
-				// Creates a point above the current position
-				new_point = new PathPoints<>(current_point.getRow() - 1, current_point.getCol());
-
-				// If the point was added before, it doesn't add again
-				if (!compareInVector(new_point)) {
-					/* ---------------TODO---------------- */
-				}
+				
 			}
         }
     }
