@@ -228,6 +228,9 @@ public class Algorithm {
         vector = new Vector<PathPoints>(1);
         int row = 0, col = 0;
 
+		// initialize map to store evaluated points with its distance value
+		HashMap<PathPoints, Integer> evaluated_points = new HashMap<PathPoints, Integer>();
+
         // set and add initial point
         PathPoints initial_point = new PathPoints(0, 0);
         vector.add(initial_point);
@@ -238,9 +241,6 @@ public class Algorithm {
         // declare new point var
         PathPoints new_point;
 
-		// initialize map to store evaluated points with its distance value
-		HashMap<PathPoints, Integer> evaluated_points = new HashMap<PathPoints, Integer>();
-
         // while the current point is not the goal point
         while (current_point.getRow() != 9 && current_point.getCol() != 9){
 			/* Search Upwards */
@@ -250,10 +250,44 @@ public class Algorithm {
 				new_point = new PathPoints(current_point.getRow() - 1, current_point.getCol());
 
 				// If the point was added before, it doesn't add again
-				if (!compareInVector(new_point)) {
-					/* ---------------TODO---------------- */
-				}
+				if (!compareInVector(new_point))
+					evaluated_points.put(new_point, distance(new_point));
 			}
+
+			/* Search left */
+			// Looks if Index in range AND if there's not an obstacle in that index
+			if (col > 0 && !obstacles[row][col-1]){
+				// set new point
+				new_point = new PathPoints(current_point.getRow(), current_point.getCol()-1);
+
+				// if point was not added before
+				if (!compareInVector(new_point))
+					evaluated_points.put(new_point, distance(new_point));
+			}
+
+			/* Search down */
+			// Looks if Index in range AND if there's not an obstacle in that index
+			if (row < 9 && !obstacles[row+1][col]){
+				// set new point
+				new_point = new PathPoints(current_point.getRow(), current_point.getCol());
+
+				// if point was not added before
+				if (!compareInVector(new_point))
+					evaluated_points.put(new_point, distance(new_point));
+			}
+
+			/* Search right */
+			// Looks if Index in range AND if there's not an obstacle in that index
+			if (col < 9 && !obstacles[row][col+1]){
+				// set new point
+				new_point = new PathPoints(current_point.getRow(), current_point.getCol());
+
+				// if point was not added before
+				if (!compareInVector(current_point))
+					evaluated_points.put(new_point, distance(new_point));
+			}
+
+			/* ----------TODO------------ */
         }
     }
 
@@ -281,13 +315,13 @@ public class Algorithm {
 
             row = current_point.getRow();
             col = current_point.getCol();
-            
+
             // If the current point is the end exits the cycle
             if(current_point.getRow() == 9 && current_point.getCol() == 9){
                 evaluated_points.clear();      // Empty stack
                 break;
             }
-            
+
             /* Search Upwards */
             // Looks if Index in range AND if there's not an obstacle in that index
             if(row > 0 && !obstacles[row - 1][col]){
