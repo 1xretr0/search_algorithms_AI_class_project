@@ -45,10 +45,10 @@ public class Algorithm {
     // Searchs for the max value in the Hashmap
     public PathPoints maxValuePoint(HashMap<PathPoints, Integer> hashmap){
         int max = 18;
-        PathPoints maxValuePoint = new PathPoints<>(0, 0);
+        PathPoints maxValuePoint = new PathPoints(0, 0);
         for(PathPoints point : hashmap.keySet()){
             if(hashmap.get(point) < max){
-                maxValuePoint = new PathPoints<>(point.getRow(), point.getCol());
+                maxValuePoint = new PathPoints(point.getRow(), point.getCol());
                 max = hashmap.get(point);
             }
         }
@@ -68,7 +68,7 @@ public class Algorithm {
 
         // Initialize queue
         Queue<PathPoints> queue = new LinkedList<>();
-        PathPoints initial_point = new PathPoints<>(0, 0);
+        PathPoints initial_point = new PathPoints(0, 0);
 
         queue.add(initial_point);       // set initial queue state
         vector.add(initial_point);      // Adds initial point to the path vector
@@ -90,7 +90,7 @@ public class Algorithm {
             // Looks if Index in range AND if there's not an obstacle in that index
             if(row > 0 && !obstacles[row - 1][col]){
                 // Creates a point above the current position
-                new_point = new PathPoints<>(current_point.getRow() - 1, current_point.getCol());
+                new_point = new PathPoints(current_point.getRow() - 1, current_point.getCol());
 
                 // If the point was added before, it doesn't add again
                 if(!compareInVector(new_point)){
@@ -103,7 +103,7 @@ public class Algorithm {
             // Looks if Index in range AND if there's not an obstacle in that index
             if(col > 0 && !obstacles[row][col - 1]){
                 // Creates a point to the left of the current position
-                new_point = new PathPoints<>(current_point.getRow(), current_point.getCol() - 1);
+                new_point = new PathPoints(current_point.getRow(), current_point.getCol() - 1);
 
                 // If the point was added before, it doesn't add again
                 if(!compareInVector(new_point)){
@@ -116,7 +116,7 @@ public class Algorithm {
             // Looks if Index in range AND if there's not an obstacle in that index
             if(row < 9 && !obstacles[row + 1][col]){
                 // Creates a point under the current position
-                new_point = new PathPoints<>(current_point.getRow() + 1, current_point.getCol());
+                new_point = new PathPoints(current_point.getRow() + 1, current_point.getCol());
 
                 // If the point was added before, it doesn't add again
                 if(!compareInVector(new_point)){
@@ -129,7 +129,7 @@ public class Algorithm {
             // Looks if Index in range AND if there's not an obstacle in that index
             if(col < 9 && !obstacles[row][col + 1]){
                 // Creates a point to the right of the current position
-                new_point = new PathPoints<>(current_point.getRow(), current_point.getCol() + 1);
+                new_point = new PathPoints(current_point.getRow(), current_point.getCol() + 1);
 
                 // If the point was added before, it doesn't add again
                 if(!compareInVector(new_point)){
@@ -153,7 +153,7 @@ public class Algorithm {
         // Initialize stack
         Stack<PathPoints> stack = new Stack<>();
 
-        PathPoints initial_point = new PathPoints<>(0, 0);
+        PathPoints initial_point = new PathPoints(0, 0);
         stack.push(initial_point);       // set initial stack state
 
         // while stack is NOT empty AND haven't found the end, do:
@@ -175,7 +175,7 @@ public class Algorithm {
             // Looks if Index in range AND if there's not an obstacle in that index
             if(row > 0 && !obstacles[row - 1][col]){
                 // Creates a point above the current position
-                new_point = new PathPoints<>(current_point.getRow() - 1, current_point.getCol());
+                new_point = new PathPoints(current_point.getRow() - 1, current_point.getCol());
 
                 // If the point was added before, it doesn't add again
                 if(!compareInVector(new_point)){
@@ -187,7 +187,7 @@ public class Algorithm {
             // Looks if Index in range AND if there's not an obstacle in that index
             if(col > 0 && !obstacles[row][col - 1]){
                 // Creates a point to the left of the current position
-                new_point = new PathPoints<>(current_point.getRow(), current_point.getCol() - 1);
+                new_point = new PathPoints(current_point.getRow(), current_point.getCol() - 1);
 
                 // If the point was added before, it doesn't add again
                 if(!compareInVector(new_point)){
@@ -199,7 +199,7 @@ public class Algorithm {
             // Looks if Index in range AND if there's not an obstacle in that index
             if(row < 9 && !obstacles[row + 1][col]){
                 // Creates a point under the current position
-                new_point = new PathPoints<>(current_point.getRow() + 1, current_point.getCol());
+                new_point = new PathPoints(current_point.getRow() + 1, current_point.getCol());
 
                 // If the point was added before, it doesn't add again
                 if(!compareInVector(new_point)){
@@ -211,7 +211,8 @@ public class Algorithm {
             // Looks if Index in range AND if there's not an obstacle in that index
             if(col < 9 && !obstacles[row][col + 1]){
                 // Creates a point to the right of the current position
-                new_point = new PathPoints<>(current_point.getRow(), current_point.getCol() + 1);
+                new_point = new PathPoints(current_point.getRow(), current_point.getCol() + 1);
+                vector.add(current_point);
 
                 // If the point was added before, it doesn't add again
                 if(!compareInVector(new_point)){
@@ -228,11 +229,11 @@ public class Algorithm {
         int row = 0, col = 0;
 
         // set and add initial point
-        PathPoints initial_point = new PathPoints<>(0, 0);
+        PathPoints initial_point = new PathPoints(0, 0);
         vector.add(initial_point);
 
         // PathPoints current_point = initial_point;
-        PathPoints current_point = new PathPoints<>(initial_point.getRow(), initial_point.getCol());
+        PathPoints current_point = new PathPoints(initial_point.getRow(), initial_point.getCol());
 
         // declare new point var
         PathPoints new_point;
@@ -246,7 +247,7 @@ public class Algorithm {
 			// Looks if Index in range AND if there's not an obstacle in that index
 			if (row > 0 && !obstacles[row - 1][col]) {
 				// Creates a point above the current position
-				new_point = new PathPoints<>(current_point.getRow() - 1, current_point.getCol());
+				new_point = new PathPoints(current_point.getRow() - 1, current_point.getCol());
 
 				// If the point was added before, it doesn't add again
 				if (!compareInVector(new_point)) {
@@ -261,27 +262,80 @@ public class Algorithm {
         // Initialize vector, row, col
         vector = new Vector<PathPoints>(1);
         int row = 0, col = 0;
+        PathPoints new_point;
 
         // initialize map to store evaluated points with its distance value
 		HashMap<PathPoints, Integer> evaluated_points = new HashMap<PathPoints, Integer>();
 
         // set, evaluate and add initial point
-        PathPoints initial_point = new PathPoints<>(0, 0);
+        PathPoints initial_point = new PathPoints(0, 0);
         evaluated_points.put(initial_point, distance(initial_point));
         vector.add(initial_point);
 
         while(!evaluated_points.isEmpty()){
+            // Get Point with max Value from HashMap
             PathPoints current_point = maxValuePoint(evaluated_points);
+            evaluated_points.remove(current_point);
+            vector.add(current_point);
+            System.out.println(evaluated_points);
+
+            row = current_point.getRow();
+            col = current_point.getCol();
             
+            // If the current point is the end exits the cycle
             if(current_point.getRow() == 9 && current_point.getCol() == 9){
                 evaluated_points.clear();      // Empty stack
                 break;
             }
-			/* Search Upwards */
-			// Looks if Index in range AND if there's not an obstacle in that index
-			if (row > 0 && !obstacles[row - 1][col]) {
-				
-			}
+            
+            /* Search Upwards */
+            // Looks if Index in range AND if there's not an obstacle in that index
+            if(row > 0 && !obstacles[row - 1][col]){
+                // Creates a point above the current position
+                new_point = new PathPoints(current_point.getRow() - 1, current_point.getCol());
+
+                // If the point was added before, it doesn't add again
+                if(!compareInVector(new_point)){
+                    evaluated_points.put(new_point, distance(new_point));
+                }
+            }
+
+            /* Search Leftwards */
+            // Looks if Index in range AND if there's not an obstacle in that index
+            if(col > 0 && !obstacles[row][col - 1]){
+                // Creates a point to the left of the current position
+                new_point = new PathPoints(current_point.getRow(), current_point.getCol() - 1);
+
+                // If the point was added before, it doesn't add again
+                if(!compareInVector(new_point)){
+                    evaluated_points.put(new_point, distance(new_point));
+                }
+            }
+
+            /* Search Downwards */
+            // Looks if Index in range AND if there's not an obstacle in that index
+            if(row < 9 && !obstacles[row + 1][col]){
+                // Creates a point under the current position
+                new_point = new PathPoints(current_point.getRow() + 1, current_point.getCol());
+
+                // If the point was added before, it doesn't add again
+                if(!compareInVector(new_point)){
+                    evaluated_points.put(new_point, distance(new_point));
+                }
+            }
+
+            /* Search Rightwards */
+            // Looks if Index in range AND if there's not an obstacle in that index
+            if(col < 9 && !obstacles[row][col + 1]){
+                // Creates a point to the right of the current position
+                new_point = new PathPoints(current_point.getRow(), current_point.getCol() + 1);
+                vector.add(current_point);
+
+                // If the point was added before, it doesn't add again
+                if(!compareInVector(new_point)){
+                    evaluated_points.put(new_point, distance(new_point));
+                }
+            }
         }
     }
 

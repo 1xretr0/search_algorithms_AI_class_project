@@ -1,5 +1,5 @@
 // 
-public class PathPoints<Int> {
+public class PathPoints{
     private int Row, Col;
     
     public PathPoints(int Row, int Col){
