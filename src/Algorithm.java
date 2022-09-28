@@ -42,6 +42,20 @@ public class Algorithm {
         return false;
     }
 
+    // Searchs for the max value in the Hashmap
+    public PathPoints maxValuePoint(HashMap<PathPoints, Integer> hashmap){
+        int max = 0;
+        PathPoints maxValuePoint = new PathPoints<>(0, 0);
+        for(PathPoints point : hashmap.keySet()){
+            if(hashmap.get(point) >= max){
+                maxValuePoint = new PathPoints<>(point.getRow(), point.getCol());
+                max = hashmap.get(point);
+            }
+        }
+
+        return maxValuePoint;
+    }
+
     // BREADTH SEARCH ALGORITHM
 	public void breadthSearch(){
         // Initialize vector, row, col and the new_point variables
@@ -249,7 +263,37 @@ public class Algorithm {
 
     // BEST FIRST SEARCH ALGORITHM
 	public void bestSearch(){
-        /* -------------TODO------------- */
+        // Initialize vector, row, col
+        vector = new Vector<PathPoints>(1);
+        int row = 0, col = 0;
+
+        // initialize map to store evaluated points with its distance value
+		HashMap<PathPoints, Integer> evaluated_points = new HashMap<PathPoints, Integer>();
+
+        // set, evaluate and add initial point
+        PathPoints initial_point = new PathPoints<>(0, 0);
+        evaluated_points.put(initial_point, distance(initial_point));
+        vector.add(initial_point);
+
+        while(!evaluated_points.isEmpty()){
+            PathPoints current_point = maxValuePoint(evaluated_points);
+            
+            if(current_point.getRow() == 9 && current_point.getCol() == 9){
+                evaluated_points.clear();      // Empty stack
+                break;
+            }
+			/* Search Upwards */
+			// Looks if Index in range AND if there's not an obstacle in that index
+			if (row > 0 && !obstacles[row - 1][col]) {
+				// Creates a point above the current position
+				new_point = new PathPoints<>(current_point.getRow() - 1, current_point.getCol());
+
+				// If the point was added before, it doesn't add again
+				if (!compareInVector(new_point)) {
+					/* ---------------TODO---------------- */
+				}
+			}
+        }
     }
 
     // A* SEARCH ALGORITHM
