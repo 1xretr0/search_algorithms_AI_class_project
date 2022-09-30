@@ -245,7 +245,7 @@ public class Algorithm {
         PathPoints new_point;
 
         // while the current point is not the goal point
-        while (current_point.getRow() != 9 && current_point.getCol() != 9){
+        while (current_point.getRow() <= 9 && current_point.getCol() <= 9){
 			row = current_point.getRow();
 			col = current_point.getCol();
 
@@ -294,79 +294,17 @@ public class Algorithm {
 
 			}
 
-			System.out.println("Current:" + current_point);
-			System.out.println("Vector:" + vector);
-			System.out.println("Hashmap:" + evaluated_points);
-			System.out.println("Best:" + maxValuePoint(evaluated_points));
-
 			current_point = maxValuePoint(evaluated_points);
-			vector.add(current_point);
+			
+            if(!(current_point.getRow() == 0 && current_point.getCol() == 0))
+                vector.add(current_point);
+
+            if((current_point.getRow() == 9 && current_point.getCol() == 9) || evaluated_points.isEmpty())
+                break;
+            
 
 			evaluated_points.clear();
-
-			System.out.println();
         }
-
-		if (current_point.getRow() == 9 || current_point.getCol() == 9){
-			row = current_point.getRow();
-			col = current_point.getCol();
-
-			/* Search Upwards */
-			// Looks if Index in range AND if there's not an obstacle in that index
-			if (row > 0 && !obstacles[row - 1][col]) {
-				// Creates a point above the current position
-				new_point = new PathPoints(current_point.getRow() - 1, current_point.getCol());
-
-				// If the point was added before, it doesn't add again
-				if (!compareInVector(new_point))
-					evaluated_points.put(new_point, distance(new_point));
-			}
-
-			/* Search left */
-			// Looks if Index in range AND if there's not an obstacle in that index
-			if (col > 0 && !obstacles[row][col - 1]) {
-				// set new point to left
-				new_point = new PathPoints(current_point.getRow(), current_point.getCol() - 1);
-
-				// if point was not added before
-				if (!compareInVector(new_point))
-					evaluated_points.put(new_point, distance(new_point));
-			}
-
-			/* Search down */
-			// Looks if Index in range AND if there's not an obstacle in that index
-			if (row < 9 && !obstacles[row + 1][col]) {
-				// set new point below
-				new_point = new PathPoints(current_point.getRow() + 1, current_point.getCol());
-
-				// if point was not added before
-				if (!compareInVector(new_point))
-					evaluated_points.put(new_point, distance(new_point));
-			}
-
-			/* Search right */
-			// Looks if Index in range AND if there's not an obstacle in that index
-			if (col < 9 && !obstacles[row][col + 1]) {
-				// set new point to right
-				new_point = new PathPoints(current_point.getRow(), current_point.getCol() + 1);
-
-				// if point was not added before
-				if (!compareInVector(new_point))
-					evaluated_points.put(new_point, distance(new_point));
-
-			}
-
-			System.out.println("Vector:" + vector);
-			System.out.println("Hashmap:" + evaluated_points);
-			System.out.println("Best:" + maxValuePoint(evaluated_points));
-
-			current_point = maxValuePoint(evaluated_points);
-			vector.add(current_point);
-
-			evaluated_points.clear();
-
-			System.out.println();
-		}
     }
 
     // BEST FIRST SEARCH ALGORITHM
@@ -388,8 +326,6 @@ public class Algorithm {
             PathPoints current_point = maxValuePoint(evaluated_points);
             evaluated_points.remove(current_point);
             vector.add(current_point);
-            System.out.println(evaluated_points);
-            System.out.println(vector);
 
             row = current_point.getRow();
             col = current_point.getCol();
