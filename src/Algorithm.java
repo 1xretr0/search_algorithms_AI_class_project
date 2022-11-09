@@ -47,7 +47,7 @@ public class Algorithm {
 
     // Searchs for the max value in the Hashmap
     public PathPoints maxValuePoint(HashMap<PathPoints, Integer> hashmap){
-        int max = 18;
+        int max = 19;
         PathPoints maxValuePoint = new PathPoints(0, 0);
         for(PathPoints point : hashmap.keySet()){
             if(hashmap.get(point) < max){
@@ -389,7 +389,81 @@ public class Algorithm {
 
     // A* SEARCH ALGORITHM
 	public void aSearch(){
-        /* -------------TODO------------- */
+        // Initialize vector, row, col
+        vector = new Vector<PathPoints>(1);
+        int row = 0, col = 0;
+        PathPoints new_point;
+
+        // initialize map to store evaluated points with its distance value
+		HashMap<PathPoints, Integer> evaluated_points = new HashMap<PathPoints, Integer>();
+
+        // set, evaluate and add initial point
+        PathPoints initial_point = new PathPoints(0, 0);
+        evaluated_points.put(initial_point, distance(initial_point) + 1);
+
+        while(!evaluated_points.isEmpty()){
+            // Get Point with max Value from HashMap
+            PathPoints current_point = maxValuePoint(evaluated_points);
+            evaluated_points.remove(current_point);
+            vector.add(current_point);
+
+            row = current_point.getRow();
+            col = current_point.getCol();
+
+            // If the current point is the end exits the cycle
+            if(current_point.getRow() == 9 && current_point.getCol() == 9){
+                evaluated_points.clear();      // Empty stack
+                break;
+            }
+
+            /* Search Upwards */
+            // Looks if Index in range AND if there's not an obstacle in that index
+            if(row > 0 && !obstacles[row - 1][col]){
+                // Creates a point above the current position
+                new_point = new PathPoints(current_point.getRow() - 1, current_point.getCol());
+
+                // If the point was added before, it doesn't add again
+                if(!compareInVector(new_point)){
+                    evaluated_points.put(new_point, heuristic_distance(distance(new_point), manhattan_function(current_point, new_point)));
+                }
+            }
+
+            /* Search Leftwards */
+            // Looks if Index in range AND if there's not an obstacle in that index
+            if(col > 0 && !obstacles[row][col - 1]){
+                // Creates a point to the left of the current position
+                new_point = new PathPoints(current_point.getRow(), current_point.getCol() - 1);
+
+                // If the point was added before, it doesn't add again
+                if(!compareInVector(new_point)){
+                    evaluated_points.put(new_point, heuristic_distance(distance(new_point), manhattan_function(current_point, new_point)));
+                }
+            }
+
+            /* Search Downwards */
+            // Looks if Index in range AND if there's not an obstacle in that index
+            if(row < 9 && !obstacles[row + 1][col]){
+                // Creates a point under the current position
+                new_point = new PathPoints(current_point.getRow() + 1, current_point.getCol());
+
+                // If the point was added before, it doesn't add again
+                if(!compareInVector(new_point)){
+                    evaluated_points.put(new_point, heuristic_distance(distance(new_point), manhattan_function(current_point, new_point)));
+                }
+            }
+
+            /* Search Rightwards */
+            // Looks if Index in range AND if there's not an obstacle in that index
+            if(col < 9 && !obstacles[row][col + 1]){
+                // Creates a point to the right of the current position
+                new_point = new PathPoints(current_point.getRow(), current_point.getCol() + 1);
+
+                // If the point was added before, it doesn't add again
+                if(!compareInVector(new_point)){
+                    evaluated_points.put(new_point, heuristic_distance(distance(new_point), manhattan_function(current_point, new_point)));
+                }
+            }
+        }
     }
 
     // EVALUATION FUNCTIONS
@@ -410,12 +484,10 @@ public class Algorithm {
         return current_point_value + new_point_value;
 	}
 
-    private int heuristic_distance(PathPoints current_point, PathPoints new_point){
+    private int heuristic_distance(int distance, int manhattan_function){
         // Heuristic value for A* algorithm
         // f(n) = distance(n) + heuristic(n)
-        int heuristic;
-
-        heuristic = distance(new_point) + manhattan_function(current_point, new_point);
+        int heuristic = distance + manhattan_function;
 
         return heuristic;
     }
