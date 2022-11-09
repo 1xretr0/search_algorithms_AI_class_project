@@ -45,9 +45,18 @@ public class Algorithm {
         return false;
     }
 
+    public boolean compareInHashmap(PathPoints point, HashMap<PathPoints, Integer> hashmap){
+        // Searchs in the Hashmap if the point has been added before, so it doesn't add it again
+        for(HashMap.Entry<PathPoints, Integer> search : hashmap.entrySet()){
+            if(search.getKey().getRow() == point.getRow() && search.getKey().getCol() == point.getCol())
+                return true;
+        }
+        return false;
+    }
+
     // Searchs for the max value in the Hashmap
     public PathPoints maxValuePoint(HashMap<PathPoints, Integer> hashmap){
-        int max = 19;
+        int max = 40;
         PathPoints maxValuePoint = new PathPoints(0, 0);
         for(PathPoints point : hashmap.keySet()){
             if(hashmap.get(point) < max){
@@ -257,7 +266,7 @@ public class Algorithm {
 				new_point = new PathPoints(current_point.getRow() - 1, current_point.getCol());
 
 				// If the point was added before, it doesn't add again
-				if (!compareInVector(new_point))
+				if (!compareInVector(new_point) && !compareInHashmap(new_point, evaluated_points))
 					evaluated_points.put(new_point, distance(new_point));
 			}
 
@@ -268,7 +277,7 @@ public class Algorithm {
 				new_point = new PathPoints(current_point.getRow(), current_point.getCol()-1);
 
 				// if point was not added before
-				if (!compareInVector(new_point))
+				if (!compareInVector(new_point) && !compareInHashmap(new_point, evaluated_points))
 					evaluated_points.put(new_point, distance(new_point));
 			}
 
@@ -279,7 +288,7 @@ public class Algorithm {
 				new_point = new PathPoints(current_point.getRow() + 1, current_point.getCol());
 
 				// if point was not added before
-				if (!compareInVector(new_point))
+				if (!compareInVector(new_point) && !compareInHashmap(new_point, evaluated_points))
 					evaluated_points.put(new_point, distance(new_point));
 			}
 
@@ -290,7 +299,7 @@ public class Algorithm {
 				new_point = new PathPoints(current_point.getRow(), current_point.getCol() + 1);
 
 				// if point was not added before
-				if (!compareInVector(new_point))
+				if (!compareInVector(new_point) && !compareInHashmap(new_point, evaluated_points))
 					evaluated_points.put(new_point, distance(new_point));
 
 			}
@@ -344,7 +353,7 @@ public class Algorithm {
                 new_point = new PathPoints(current_point.getRow() - 1, current_point.getCol());
 
                 // If the point was added before, it doesn't add again
-                if(!compareInVector(new_point)){
+                if(!compareInVector(new_point) && !compareInHashmap(new_point, evaluated_points)){
                     evaluated_points.put(new_point, distance(new_point));
                 }
             }
@@ -356,7 +365,7 @@ public class Algorithm {
                 new_point = new PathPoints(current_point.getRow(), current_point.getCol() - 1);
 
                 // If the point was added before, it doesn't add again
-                if(!compareInVector(new_point)){
+                if(!compareInVector(new_point) && !compareInHashmap(new_point, evaluated_points)){
                     evaluated_points.put(new_point, distance(new_point));
                 }
             }
@@ -368,7 +377,7 @@ public class Algorithm {
                 new_point = new PathPoints(current_point.getRow() + 1, current_point.getCol());
 
                 // If the point was added before, it doesn't add again
-                if(!compareInVector(new_point)){
+                if(!compareInVector(new_point) && !compareInHashmap(new_point, evaluated_points)){
                     evaluated_points.put(new_point, distance(new_point));
                 }
             }
@@ -380,7 +389,7 @@ public class Algorithm {
                 new_point = new PathPoints(current_point.getRow(), current_point.getCol() + 1);
 
                 // If the point was added before, it doesn't add again
-                if(!compareInVector(new_point)){
+                if(!compareInVector(new_point) && !compareInHashmap(new_point, evaluated_points)){
                     evaluated_points.put(new_point, distance(new_point));
                 }
             }
@@ -399,12 +408,20 @@ public class Algorithm {
 
         // set, evaluate and add initial point
         PathPoints initial_point = new PathPoints(0, 0);
-        evaluated_points.put(initial_point, distance(initial_point) + 1);
+        evaluated_points.put(initial_point, distance(initial_point) + 20);
+
+        boolean isFirst = true;
 
         while(!evaluated_points.isEmpty()){
             // Get Point with max Value from HashMap
             PathPoints current_point = maxValuePoint(evaluated_points);
-            evaluated_points.remove(current_point);
+            if(!isFirst){
+                evaluated_points.remove(current_point);
+            }
+            else{
+                evaluated_points.clear();
+                isFirst = false;
+            }
             vector.add(current_point);
 
             row = current_point.getRow();
@@ -423,7 +440,7 @@ public class Algorithm {
                 new_point = new PathPoints(current_point.getRow() - 1, current_point.getCol());
 
                 // If the point was added before, it doesn't add again
-                if(!compareInVector(new_point)){
+                if(!compareInVector(new_point) && !compareInHashmap(new_point, evaluated_points)){
                     evaluated_points.put(new_point, heuristic_distance(distance(new_point), manhattan_function(current_point, new_point)));
                 }
             }
@@ -435,7 +452,7 @@ public class Algorithm {
                 new_point = new PathPoints(current_point.getRow(), current_point.getCol() - 1);
 
                 // If the point was added before, it doesn't add again
-                if(!compareInVector(new_point)){
+                if(!compareInVector(new_point) && !compareInHashmap(new_point, evaluated_points)){
                     evaluated_points.put(new_point, heuristic_distance(distance(new_point), manhattan_function(current_point, new_point)));
                 }
             }
@@ -447,7 +464,7 @@ public class Algorithm {
                 new_point = new PathPoints(current_point.getRow() + 1, current_point.getCol());
 
                 // If the point was added before, it doesn't add again
-                if(!compareInVector(new_point)){
+                if(!compareInVector(new_point) && !compareInHashmap(new_point, evaluated_points)){
                     evaluated_points.put(new_point, heuristic_distance(distance(new_point), manhattan_function(current_point, new_point)));
                 }
             }
@@ -459,7 +476,7 @@ public class Algorithm {
                 new_point = new PathPoints(current_point.getRow(), current_point.getCol() + 1);
 
                 // If the point was added before, it doesn't add again
-                if(!compareInVector(new_point)){
+                if(!compareInVector(new_point) && !compareInHashmap(new_point, evaluated_points)){
                     evaluated_points.put(new_point, heuristic_distance(distance(new_point), manhattan_function(current_point, new_point)));
                 }
             }
