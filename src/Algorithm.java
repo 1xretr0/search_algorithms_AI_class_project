@@ -3,6 +3,7 @@
 
 import java.io.*;
 import java.util.*;
+import java.lang.Math;
 
 import javax.swing.plaf.basic.BasicInternalFrameTitlePane.MaximizeAction;
 public class Algorithm {
@@ -391,7 +392,7 @@ public class Algorithm {
         /* -------------TODO------------- */
     }
 
-    // EVALUATION FUNCTION
+    // EVALUATION FUNCTIONS
 	private int distance(PathPoints point){
         // Evaluation is how close the point is to the end, lower distance equals better evaluation
         int row_dist = 9 - point.getRow();
@@ -399,6 +400,25 @@ public class Algorithm {
 
         return row_dist + col_dist;
 	}
+
+    private int manhattan_function(PathPoints current_point, PathPoints new_point){
+        // As the AI doesn't go diagonally, we'll be using manhattan formula to get the heuristic values
+        // d(x, y) = |x1 - y1| + |x2 - y2|
+        int current_point_value = Math.abs(current_point.getRow() - current_point.getCol());
+        int new_point_value = Math.abs(new_point.getRow() - new_point.getCol());
+
+        return current_point_value + new_point_value;
+	}
+
+    private int heuristic_distance(PathPoints current_point, PathPoints new_point){
+        // Heuristic value for A* algorithm
+        // f(n) = distance(n) + heuristic(n)
+        int heuristic;
+
+        heuristic = distance(new_point) + manhattan_function(current_point, new_point);
+
+        return heuristic;
+    }
 
 	// Initialize new obstacles
     public void setObstacles(int t){
