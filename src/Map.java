@@ -6,13 +6,19 @@ public class Map extends Canvas implements Runnable{
     /* Variables declaration */
     // Boolean to draw vector points on paint method (false)
     private boolean draw_path =  false;
+
     // Thread to convert Canvas into a Thread for the GUI
     private Thread thread;
+
     // Algorithm variable to invoke Vector and Array of Arrays methods
     private Algorithm algorithm;
 
-    public Map(Algorithm algorithm){
+    // Obstacles variable to draw the obstacles on the canvas
+    private Obstacles obstacles;
+
+    public Map(Algorithm algorithm, Obstacles obstacles){
         this.algorithm = algorithm;
+        this.obstacles = obstacles;
     }
 
     public void paint(Graphics gc){
@@ -65,7 +71,7 @@ public class Map extends Canvas implements Runnable{
         for(int row = 0; row < 10; row++){
             for(int col = 0; col < 10; col++){
                 // get the obstacles boolean value from the Array of Arrays
-                if(algorithm.getObstacles(row, col))
+                if(obstacles.getObstacles(row, col))
                     gc.fillRect(col * 50, row * 50, 50, 50);
             }
         }

@@ -1,25 +1,23 @@
 // this class computes the chosen search algorithm using the matrix obstacles map and a vector to store the path
 // used by the algorithm class to get to the finish
 
-import java.io.*;
 import java.util.*;
 import java.lang.Math;
 
-import javax.swing.plaf.basic.BasicInternalFrameTitlePane.MaximizeAction;
 public class Algorithm {
     // Array of Arrays to store obstacles positions
-    private boolean obstacles[][];
+    private Obstacles obstacles;
     // Vector to store the path chosen by the algorythm (vector of type PathPoints)
     private Vector<PathPoints> vector;
 
     // CLASS CONSTRUCTOR
 	public Algorithm(){
-        setObstacles(0);
+        obstacles = new Obstacles();
     }
 
-    // returns the boolean value of the Array of arrays
-    public boolean getObstacles(int row, int col){
-        return obstacles[row][col];
+    // set obstacles
+    public void setObstacles(){
+        obstacles = new Obstacles(obstacles.getTemplate());
     }
 
     // Returns the value of the vector in that index
@@ -27,15 +25,12 @@ public class Algorithm {
         return this.vector.get(index);
     }
 
+    // Gets and return vector values
     public Vector getVector(){
         return new Vector<PathPoints>(this.vector);
     }
-
-    // prints the stored points of the vector in console (WILL BE DELETED)
-    public void printVector(){
-        System.out.println(this.vector);
-    }
-
+    
+    // Compares the current point doesn't exists in the vector
     public boolean compareInVector(PathPoints point){
         // Searchs in the vector if the point has been added before, so it doesn't add it again
         for(PathPoints search : this.vector){
@@ -45,6 +40,7 @@ public class Algorithm {
         return false;
     }
 
+    // Compares the current point doesn't exists in the Hashmap
     public boolean compareInHashmap(PathPoints point, HashMap<PathPoints, Integer> hashmap){
         // Searchs in the Hashmap if the point has been added before, so it doesn't add it again
         for(HashMap.Entry<PathPoints, Integer> search : hashmap.entrySet()){
@@ -70,9 +66,10 @@ public class Algorithm {
 
     // BREADTH SEARCH ALGORITHM
 	public void breadthSearch(){
-        // Initialize vector, row, col and the new_point variables
+        // Initialize vector, row, col, obstacles the new_point variables
         vector = new Vector<PathPoints>(1);
         int row = 0, col = 0;
+        setObstacles();
         PathPoints new_point;
 
         /* Vector shall add every point of queue BEFORE it goes through. As it is a queue it WILL eventually get there,
@@ -100,7 +97,7 @@ public class Algorithm {
 
             /* Search Upwards */
             // Looks if Index in range AND if there's not an obstacle in that index
-            if(row > 0 && !obstacles[row - 1][col]){
+            if(row > 0 && !obstacles.getObstacles(row - 1, col)){
                 // Creates a point above the current position
                 new_point = new PathPoints(current_point.getRow() - 1, current_point.getCol());
 
@@ -113,7 +110,7 @@ public class Algorithm {
 
             /* Search Leftwards */
             // Looks if Index in range AND if there's not an obstacle in that index
-            if(col > 0 && !obstacles[row][col - 1]){
+            if(col > 0 && !obstacles.getObstacles(row, col - 1)){
                 // Creates a point to the left of the current position
                 new_point = new PathPoints(current_point.getRow(), current_point.getCol() - 1);
 
@@ -126,7 +123,7 @@ public class Algorithm {
 
             /* Search Downwards */
             // Looks if Index in range AND if there's not an obstacle in that index
-            if(row < 9 && !obstacles[row + 1][col]){
+            if(row < 9 && !obstacles.getObstacles(row + 1, col)){
                 // Creates a point under the current position
                 new_point = new PathPoints(current_point.getRow() + 1, current_point.getCol());
 
@@ -139,7 +136,7 @@ public class Algorithm {
 
             /* Search Rightwards */
             // Looks if Index in range AND if there's not an obstacle in that index
-            if(col < 9 && !obstacles[row][col + 1]){
+            if(col < 9 && !obstacles.getObstacles(row, col + 1)){
                 // Creates a point to the right of the current position
                 new_point = new PathPoints(current_point.getRow(), current_point.getCol() + 1);
 
@@ -154,9 +151,10 @@ public class Algorithm {
 
     // DEPTH SEARCH ALGORITHM
 	public void depthSearch(){
-        // Initialize vector, row, col and the new_point variables
+        // Initialize vector, row, col, obstacles and the new_point variables
         vector = new Vector<PathPoints>(1);
         int row = 0, col = 0;
+        setObstacles();
         PathPoints new_point;
 
         /* Vector shall add every point stack AFTER it goes through. As it is a stack it might not go through all
@@ -185,7 +183,7 @@ public class Algorithm {
 
             /* Search Upwards */
             // Looks if Index in range AND if there's not an obstacle in that index
-            if(row > 0 && !obstacles[row - 1][col]){
+            if(row > 0 && !obstacles.getObstacles(row - 1, col)){
                 // Creates a point above the current position
                 new_point = new PathPoints(current_point.getRow() - 1, current_point.getCol());
 
@@ -197,7 +195,7 @@ public class Algorithm {
 
             /* Search Leftwards */
             // Looks if Index in range AND if there's not an obstacle in that index
-            if(col > 0 && !obstacles[row][col - 1]){
+            if(col > 0 && !obstacles.getObstacles(row, col - 1)){
                 // Creates a point to the left of the current position
                 new_point = new PathPoints(current_point.getRow(), current_point.getCol() - 1);
 
@@ -209,7 +207,7 @@ public class Algorithm {
 
             /* Search Downwards */
             // Looks if Index in range AND if there's not an obstacle in that index
-            if(row < 9 && !obstacles[row + 1][col]){
+            if(row < 9 && !obstacles.getObstacles(row + 1, col)){
                 // Creates a point under the current position
                 new_point = new PathPoints(current_point.getRow() + 1, current_point.getCol());
 
@@ -221,7 +219,7 @@ public class Algorithm {
 
             /* Search Rightwards */
             // Looks if Index in range AND if there's not an obstacle in that index
-            if(col < 9 && !obstacles[row][col + 1]){
+            if(col < 9 && !obstacles.getObstacles(row, col + 1)){
                 // Creates a point to the right of the current position
                 new_point = new PathPoints(current_point.getRow(), current_point.getCol() + 1);
                 vector.add(current_point);
@@ -236,9 +234,10 @@ public class Algorithm {
 
     // HILL SEARCH ALGORITHM
 	public void hillSearch(){
-        // Initialize vector, row, col
+        // Initialize vector, row, col and obstacles
         vector = new Vector<PathPoints>(1);
         int row = 0, col = 0;
+        setObstacles();
 
 		// initialize map to store evaluated points with its distance value
 		HashMap<PathPoints, Integer> evaluated_points = new HashMap<PathPoints, Integer>();
@@ -261,7 +260,7 @@ public class Algorithm {
 
 			/* Search Upwards */
 			// Looks if Index in range AND if there's not an obstacle in that index
-			if (row > 0 && !obstacles[row - 1][col]) {
+			if (row > 0 && !obstacles.getObstacles(row - 1, col)) {
 				// Creates a point above the current position
 				new_point = new PathPoints(current_point.getRow() - 1, current_point.getCol());
 
@@ -272,7 +271,7 @@ public class Algorithm {
 
 			/* Search left */
 			// Looks if Index in range AND if there's not an obstacle in that index
-			if (col > 0 && !obstacles[row][col-1]){
+			if (col > 0 && !obstacles.getObstacles(row, col - 1)){
 				// set new point to left
 				new_point = new PathPoints(current_point.getRow(), current_point.getCol()-1);
 
@@ -283,7 +282,7 @@ public class Algorithm {
 
 			/* Search down */
 			// Looks if Index in range AND if there's not an obstacle in that index
-			if (row < 9 && !obstacles[row+1][col]){
+			if (row < 9 && !obstacles.getObstacles(row + 1, col)){
 				// set new point below
 				new_point = new PathPoints(current_point.getRow() + 1, current_point.getCol());
 
@@ -294,7 +293,7 @@ public class Algorithm {
 
 			/* Search right */
 			// Looks if Index in range AND if there's not an obstacle in that index
-			if (col < 9 && !obstacles[row][col+1]){
+			if (col < 9 && !obstacles.getObstacles(row, col + 1)){
 				// set new point to right
 				new_point = new PathPoints(current_point.getRow(), current_point.getCol() + 1);
 
@@ -319,9 +318,10 @@ public class Algorithm {
 
     // BEST FIRST SEARCH ALGORITHM
 	public void bestSearch(){
-        // Initialize vector, row, col
+        // Initialize vector, row, col and obstacles
         vector = new Vector<PathPoints>(1);
         int row = 0, col = 0;
+        setObstacles();
         PathPoints new_point;
 
         // initialize map to store evaluated points with its distance value
@@ -348,7 +348,7 @@ public class Algorithm {
 
             /* Search Upwards */
             // Looks if Index in range AND if there's not an obstacle in that index
-            if(row > 0 && !obstacles[row - 1][col]){
+            if(row > 0 && !obstacles.getObstacles(row - 1, col)){
                 // Creates a point above the current position
                 new_point = new PathPoints(current_point.getRow() - 1, current_point.getCol());
 
@@ -360,7 +360,7 @@ public class Algorithm {
 
             /* Search Leftwards */
             // Looks if Index in range AND if there's not an obstacle in that index
-            if(col > 0 && !obstacles[row][col - 1]){
+            if(col > 0 && !obstacles.getObstacles(row, col - 1)){
                 // Creates a point to the left of the current position
                 new_point = new PathPoints(current_point.getRow(), current_point.getCol() - 1);
 
@@ -372,7 +372,7 @@ public class Algorithm {
 
             /* Search Downwards */
             // Looks if Index in range AND if there's not an obstacle in that index
-            if(row < 9 && !obstacles[row + 1][col]){
+            if(row < 9 && !obstacles.getObstacles(row + 1, col)){
                 // Creates a point under the current position
                 new_point = new PathPoints(current_point.getRow() + 1, current_point.getCol());
 
@@ -384,7 +384,7 @@ public class Algorithm {
 
             /* Search Rightwards */
             // Looks if Index in range AND if there's not an obstacle in that index
-            if(col < 9 && !obstacles[row][col + 1]){
+            if(col < 9 && !obstacles.getObstacles(row, col + 1)){
                 // Creates a point to the right of the current position
                 new_point = new PathPoints(current_point.getRow(), current_point.getCol() + 1);
 
@@ -398,9 +398,10 @@ public class Algorithm {
 
     // A* SEARCH ALGORITHM
 	public void aSearch(){
-        // Initialize vector, row, col
+        // Initialize vector, row, col and obstacles
         vector = new Vector<PathPoints>(1);
         int row = 0, col = 0;
+        setObstacles();
         PathPoints new_point;
 
         // initialize map to store evaluated points with its distance value
@@ -435,7 +436,7 @@ public class Algorithm {
 
             /* Search Upwards */
             // Looks if Index in range AND if there's not an obstacle in that index
-            if(row > 0 && !obstacles[row - 1][col]){
+            if(row > 0 && !obstacles.getObstacles(row - 1, col)){
                 // Creates a point above the current position
                 new_point = new PathPoints(current_point.getRow() - 1, current_point.getCol());
 
@@ -447,7 +448,7 @@ public class Algorithm {
 
             /* Search Leftwards */
             // Looks if Index in range AND if there's not an obstacle in that index
-            if(col > 0 && !obstacles[row][col - 1]){
+            if(col > 0 && !obstacles.getObstacles(row, col - 1)){
                 // Creates a point to the left of the current position
                 new_point = new PathPoints(current_point.getRow(), current_point.getCol() - 1);
 
@@ -459,7 +460,7 @@ public class Algorithm {
 
             /* Search Downwards */
             // Looks if Index in range AND if there's not an obstacle in that index
-            if(row < 9 && !obstacles[row + 1][col]){
+            if(row < 9 && !obstacles.getObstacles(row + 1, col)){
                 // Creates a point under the current position
                 new_point = new PathPoints(current_point.getRow() + 1, current_point.getCol());
 
@@ -471,7 +472,7 @@ public class Algorithm {
 
             /* Search Rightwards */
             // Looks if Index in range AND if there's not an obstacle in that index
-            if(col < 9 && !obstacles[row][col + 1]){
+            if(col < 9 && !obstacles.getObstacles(row, col + 1)){
                 // Creates a point to the right of the current position
                 new_point = new PathPoints(current_point.getRow(), current_point.getCol() + 1);
 
@@ -507,116 +508,5 @@ public class Algorithm {
         int heuristic = distance + manhattan_function;
 
         return heuristic;
-    }
-
-	// Initialize new obstacles
-    public void setObstacles(int t){
-        obstacles = new boolean[10][10];
-
-        int template = t;
-
-        switch(template){       // MANUAL CHANGE
-            case 0:{
-                /* Test EMPTY */
-                // It is planned to be random or user input
-                /* How obstacles are gonna show in this example
-                *    0  1  2  3  4  5  6  7  8  9
-                * 0 [S][ ][ ][ ][ ][ ][ ][ ][ ][ ]
-                * 1 [ ][ ][ ][ ][ ][ ][ ][ ][ ][ ]
-                * 2 [ ][ ][ ][ ][ ][ ][ ][ ][ ][ ]
-                * 3 [ ][ ][ ][ ][ ][ ][ ][ ][ ][ ]
-                * 4 [ ][ ][ ][ ][ ][ ][ ][ ][ ][ ]
-                * 5 [ ][ ][ ][ ][ ][ ][ ][ ][ ][ ]
-                * 6 [ ][ ][ ][ ][ ][ ][ ][ ][ ][ ]
-                * 7 [ ][ ][ ][ ][ ][ ][ ][ ][ ][ ]
-                * 8 [ ][ ][ ][ ][ ][ ][ ][ ][ ][ ]
-                * 9 [ ][ ][ ][ ][ ][ ][ ][ ][ ][F]
-                */
-                break;
-            }
-            case 1:{
-                /* Test TEMPLATE 1 */
-                // It is planned to be random or user input
-                /* How obstacles are gonna show in this example
-                *    0  1  2  3  4  5  6  7  8  9
-                * 0 [S][*][*][*][*][*][*][ ][ ][ ]
-                * 1 [ ][*][*][*][ ][ ][ ][ ][*][ ]
-                * 2 [ ][ ][ ][ ][ ][ ][*][ ][*][ ]
-                * 3 [*][ ][ ][*][*][ ][*][ ][*][ ]
-                * 4 [*][*][ ][*][*][ ][*][ ][ ][ ]
-                * 5 [*][*][ ][*][*][*][*][*][ ][*]
-                * 6 [*][*][ ][ ][ ][*][*][ ][ ][*]
-                * 7 [*][*][*][ ][ ][ ][*][ ][ ][*]
-                * 8 [*][*][*][*][ ][ ][ ][ ][ ][*]
-                * 9 [*][*][*][*][ ][ ][*][*][ ][F]
-                */
-                obstacles[0][1] = true; obstacles[0][2] = true; obstacles[0][3] = true; obstacles[0][4] = true; obstacles[0][5] = true; obstacles[0][6] = true;
-                obstacles[1][2] = true; obstacles[1][2] = true; obstacles[1][2] = true; obstacles[1][8] = true;
-                obstacles[2][6] = true; obstacles[2][8] = true;
-                obstacles[3][0] = true; obstacles[3][3] = true; obstacles[3][4] = true; obstacles[3][6] = true; obstacles[3][8] = true;
-                obstacles[4][0] = true; obstacles[4][1] = true; obstacles[4][3] = true; obstacles[4][4] = true; obstacles[4][6] = true;
-                obstacles[5][0] = true; obstacles[5][1] = true; obstacles[5][3] = true; obstacles[5][4] = true; obstacles[5][5] = true; obstacles[5][6] = true; obstacles[5][7] = true; obstacles[5][9] = true;
-                obstacles[6][0] = true; obstacles[6][1] = true; obstacles[6][5] = true; obstacles[6][6] = true; obstacles[6][9] = true;
-                obstacles[7][0] = true; obstacles[7][1] = true; obstacles[7][2] = true; obstacles[7][6] = true; obstacles[7][9] = true;
-                obstacles[8][0] = true; obstacles[8][1] = true; obstacles[8][2] = true; obstacles[8][3] = true; obstacles[8][9] = true;
-                obstacles[9][0] = true; obstacles[9][1] = true; obstacles[9][2] = true; obstacles[9][3] = true; obstacles[9][6] = true; obstacles[9][7] = true;
-                break;
-            }
-            case 2:{
-                /* Test TEMPLATE 2 */
-                // It is planned to be random or user input
-                /* How obstacles are gonna show in this example
-                *    0  1  2  3  4  5  6  7  8  9
-                * 0 [S][ ][*][*][*][*][*][*][*][*]
-                * 1 [ ][ ][ ][ ][*][*][*][*][*][*]
-                * 2 [*][ ][ ][ ][ ][ ][*][*][*][*]
-                * 3 [*][ ][ ][*][ ][ ][ ][ ][*][*]
-                * 4 [*][*][ ][ ][*][*][ ][ ][*][ ]
-                * 5 [*][*][ ][ ][*][*][*][*][ ][ ]
-                * 6 [*][*][ ][ ][ ][*][*][*][ ][ ]
-                * 7 [*][*][ ][ ][ ][*][*][*][ ][ ]
-                * 8 [*][*][ ][ ][ ][ ][ ][ ][ ][ ]
-                * 9 [*][*][*][*][ ][ ][ ][ ][ ][F]
-                */
-
-                obstacles[0][2] = true; obstacles[0][3] = true; obstacles[0][4] = true; obstacles[0][5] = true; obstacles[0][6] = true; obstacles[0][7] = true; obstacles[0][8] = true; obstacles[0][9] = true;
-                obstacles[1][4] = true; obstacles[1][5] = true; obstacles[1][6] = true; obstacles[1][7] = true; obstacles[1][8] = true; obstacles[1][9] = true;
-                obstacles[2][0] = true; obstacles[2][6] = true; obstacles[2][7] = true; obstacles[2][8] = true; obstacles[2][9] = true;
-                obstacles[3][0] = true; obstacles[3][3] = true; obstacles[3][8] = true; obstacles[3][9] = true;
-                obstacles[4][0] = true; obstacles[4][1] = true; obstacles[4][4] = true; obstacles[4][5] = true; obstacles[4][8] = true;
-                obstacles[5][0] = true; obstacles[5][1] = true; obstacles[5][4] = true; obstacles[5][5] = true; obstacles[5][6] = true; obstacles[5][7] = true;
-                obstacles[6][0] = true; obstacles[6][1] = true; obstacles[6][5] = true; obstacles[6][6] = true; obstacles[6][7] = true;
-                obstacles[7][0] = true; obstacles[7][1] = true; obstacles[7][5] = true; obstacles[7][6] = true; obstacles[7][7] = true;
-                obstacles[8][0] = true; obstacles[8][1] = true;
-                obstacles[9][0] = true; obstacles[9][1] = true; obstacles[9][2] = true; obstacles[9][3] = true;
-                break;
-            }
-            case 3:{
-                /* Test TEMPLATE 3 */
-                // It is planned to be random or user input
-                /* How obstacles are gonna show in this example
-                *    0  1  2  3  4  5  6  7  8  9
-                * 0 [S][ ][ ][ ][ ][ ][ ][ ][ ][ ]
-                * 1 [ ][ ][ ][ ][ ][ ][ ][ ][ ][ ]
-                * 2 [ ][ ][ ][*][*][*][ ][ ][ ][ ]
-                * 3 [ ][ ][*][ ][ ][*][*][ ][ ][ ]
-                * 4 [*][*][*][ ][ ][*][*][*][ ][ ]
-                * 5 [*][*][*][ ][ ][*][*][*][ ][ ]
-                * 6 [ ][ ][*][*][*][*][*][*][ ][ ]
-                * 7 [ ][ ][ ][*][*][*][*][*][ ][ ]
-                * 8 [*][*][ ][ ][*][*][*][*][ ][ ]
-                * 9 [*][*][ ][ ][ ][ ][ ][ ][ ][F]
-                */
-                obstacles[2][3] = true; obstacles[2][4] = true; obstacles[2][5] = true;
-                obstacles[3][2] = true; obstacles[3][5] = true; obstacles[3][6] = true;
-                obstacles[4][0] = true; obstacles[4][1] = true; obstacles[4][2] = true; obstacles[4][5] = true; obstacles[4][6] = true; obstacles[4][7] = true;
-                obstacles[5][0] = true; obstacles[5][1] = true; obstacles[5][2] = true; obstacles[5][5] = true; obstacles[5][6] = true; obstacles[5][7] = true;
-                obstacles[6][2] = true; obstacles[6][3] = true; obstacles[6][4] = true; obstacles[6][5] = true; obstacles[6][6] = true; obstacles[6][7] = true;
-                obstacles[7][3] = true; obstacles[7][4] = true; obstacles[7][5] = true; obstacles[7][6] = true; obstacles[7][7] = true;
-                obstacles[8][0] = true; obstacles[8][1] = true; obstacles[8][4] = true; obstacles[8][5] = true; obstacles[8][6] = true; obstacles[8][7] = true;
-                obstacles[9][0] = true; obstacles[9][1] = true;
-                break;
-            }
-        }
     }
 }

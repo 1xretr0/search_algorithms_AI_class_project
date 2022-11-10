@@ -23,6 +23,9 @@ public class AppGUI extends JFrame implements ItemListener{
     // Algorithm declaration
     private static Algorithm algorithm;
 
+    // Obstacles declaration
+    private static Obstacles obstacles;
+
     /* Constructor of the AppGUI */
     // The constructor sets the window, initializes all the panels, textfields, button, labels, combobox and canvas;
     // and adds all the components to the window
@@ -36,8 +39,11 @@ public class AppGUI extends JFrame implements ItemListener{
         // set Algorithm
         algorithm = new Algorithm();
 
+        // set Obstacles
+        obstacles = new Obstacles();
+
         // Set Canvas
-        map = new Map(algorithm);
+        map = new Map(algorithm, obstacles);
 
         // Set Combo box and labels panel
         CBox_panel = new JPanel(new FlowLayout(0, 20, 5));
@@ -132,13 +138,13 @@ public class AppGUI extends JFrame implements ItemListener{
 
         if(e.getSource() == pattern_combo){
             if(pattern_combo.getSelectedItem().toString() == "Empty"){
-                algorithm.setObstacles(0);
+                obstacles.setObstacles(0);
             }else if(pattern_combo.getSelectedItem().toString() == "Pattern 1"){
-                algorithm.setObstacles(1);
+                obstacles.setObstacles(1);
             }else if(pattern_combo.getSelectedItem().toString() == "Pattern 2"){
-                algorithm.setObstacles(2);
+                obstacles.setObstacles(2);
             }else if(pattern_combo.getSelectedItem().toString() == "Pattern 3"){
-                algorithm.setObstacles(3);
+                obstacles.setObstacles(3);
             }
 
             map.repaint();
