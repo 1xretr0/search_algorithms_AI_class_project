@@ -1,8 +1,10 @@
 // this class creates the graphic map where the chosen algorithm will work
 import java.awt.*;
 import java.awt.geom.*;
+import java.awt.event.*;
+import java.lang.Math;
 
-public class Map extends Canvas implements Runnable{
+public class Map extends Canvas implements Runnable, MouseListener{
     /* Variables declaration */
     // Boolean to draw vector points on paint method (false)
     private boolean draw_path =  false;
@@ -19,7 +21,21 @@ public class Map extends Canvas implements Runnable{
     public Map(Algorithm algorithm, Obstacles obstacles){
         this.algorithm = algorithm;
         this.obstacles = obstacles;
+        addMouseListener(this);
     }
+    
+    public void mouseClicked(MouseEvent e) {
+    }  
+    public void mouseEntered(MouseEvent e) {
+    }  
+    public void mouseExited(MouseEvent e) {
+    }  
+    public void mousePressed(MouseEvent e) {
+        obstacles.setObstacles(Math.round(e.getY()/50), Math.round(e.getX()/50));
+        repaint();
+    }  
+    public void mouseReleased(MouseEvent e) {
+    } 
 
     public void paint(Graphics gc){
         // create Graphics2D variable from Graphics

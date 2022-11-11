@@ -1,30 +1,24 @@
 // This class generates the different obstacles the AI will use 
 
-public class Obstacles {
+public class Obstacles{
     // Array of Arrays to store obstacles positions
-    private boolean obstacles[][];
+    private static boolean obstacles[][];
     private static int template = 0;
 
     public Obstacles(){
         obstacles = new boolean[10][10];
     }
 
-    public Obstacles(int t){
-        obstacles = new boolean[10][10];
-        setObstacles(t);
-    }
-
-    // Get template value
-    public int getTemplate(){
-        return template;
-    }
-
-    // Get obstacles
+    // Get obstacle in specific coord
     public boolean getObstacles(int row, int col){
         return obstacles[row][col];
     }
 
-    // Set new obstacles
+    public boolean[][] getObstacles(){
+        return obstacles;
+    }
+
+    // Set new obstacles by template
     public void setObstacles(int t){
         obstacles = new boolean[10][10];
 
@@ -133,5 +127,11 @@ public class Obstacles {
                 break;
             }
         }
+    }
+
+    // Set obstacles by hand
+    public void setObstacles(int row, int col){
+        if(obstacles[row][col]) { obstacles[row][col] = false; }
+        else if(!obstacles[row][col]) { obstacles[row][col] = true; }
     }
 }

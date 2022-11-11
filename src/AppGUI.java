@@ -157,7 +157,7 @@ public class AppGUI extends JFrame implements ItemListener{
             setVisible(false);
             dispose();
         }
-    }
+    } 
 
     /* Main method to run the programm */
     public static void main(String[] args){

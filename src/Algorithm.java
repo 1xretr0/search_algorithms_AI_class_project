@@ -15,11 +15,6 @@ public class Algorithm {
         obstacles = new Obstacles();
     }
 
-    // set obstacles
-    public void setObstacles(){
-        obstacles = new Obstacles(obstacles.getTemplate());
-    }
-
     // Returns the value of the vector in that index
     public PathPoints getPathPoint(int index){
         return this.vector.get(index);
@@ -69,7 +64,7 @@ public class Algorithm {
         // Initialize vector, row, col, obstacles the new_point variables
         vector = new Vector<PathPoints>(1);
         int row = 0, col = 0;
-        setObstacles();
+        obstacles.getObstacles();
         PathPoints new_point;
 
         /* Vector shall add every point of queue BEFORE it goes through. As it is a queue it WILL eventually get there,
@@ -154,7 +149,7 @@ public class Algorithm {
         // Initialize vector, row, col, obstacles and the new_point variables
         vector = new Vector<PathPoints>(1);
         int row = 0, col = 0;
-        setObstacles();
+        obstacles.getObstacles();
         PathPoints new_point;
 
         /* Vector shall add every point stack AFTER it goes through. As it is a stack it might not go through all
@@ -237,7 +232,7 @@ public class Algorithm {
         // Initialize vector, row, col and obstacles
         vector = new Vector<PathPoints>(1);
         int row = 0, col = 0;
-        setObstacles();
+        obstacles.getObstacles();
 
 		// initialize map to store evaluated points with its distance value
 		HashMap<PathPoints, Integer> evaluated_points = new HashMap<PathPoints, Integer>();
@@ -321,7 +316,7 @@ public class Algorithm {
         // Initialize vector, row, col and obstacles
         vector = new Vector<PathPoints>(1);
         int row = 0, col = 0;
-        setObstacles();
+        obstacles.getObstacles();
         PathPoints new_point;
 
         // initialize map to store evaluated points with its distance value
@@ -401,7 +396,7 @@ public class Algorithm {
         // Initialize vector, row, col and obstacles
         vector = new Vector<PathPoints>(1);
         int row = 0, col = 0;
-        setObstacles();
+        obstacles.getObstacles();
         PathPoints new_point;
 
         // initialize map to store evaluated points with its distance value
