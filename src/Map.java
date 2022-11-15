@@ -1,19 +1,41 @@
 // this class creates the graphic map where the chosen algorithm will work
 import java.awt.*;
 import java.awt.geom.*;
+import java.awt.event.*;
+import java.lang.Math;
 
-public class Map extends Canvas implements Runnable{
+public class Map extends Canvas implements Runnable, MouseListener{
     /* Variables declaration */
     // Boolean to draw vector points on paint method (false)
     private boolean draw_path =  false;
+
     // Thread to convert Canvas into a Thread for the GUI
     private Thread thread;
-    // Algorithm variable to invoke Vector and Array of Arrays methods
-    private Algorithm algoritmo;
 
-    public Map(Algorithm algoritmo){
-        this.algoritmo = algoritmo;
+    // Algorithm variable to invoke Vector and Array of Arrays methods
+    private Algorithm algorithm;
+
+    // Obstacles variable to draw the obstacles on the canvas
+    private Obstacles obstacles;
+
+    public Map(Algorithm algorithm, Obstacles obstacles){
+        this.algorithm = algorithm;
+        this.obstacles = obstacles;
+        addMouseListener(this);
     }
+    
+    public void mouseClicked(MouseEvent e) {
+    }  
+    public void mouseEntered(MouseEvent e) {
+    }  
+    public void mouseExited(MouseEvent e) {
+    }  
+    public void mousePressed(MouseEvent e) {
+        obstacles.setObstacles(Math.round(e.getY()/50), Math.round(e.getX()/50));
+        repaint();
+    }  
+    public void mouseReleased(MouseEvent e) {
+    } 
 
     public void paint(Graphics gc){
         // create Graphics2D variable from Graphics
@@ -65,7 +87,7 @@ public class Map extends Canvas implements Runnable{
         for(int row = 0; row < 10; row++){
             for(int col = 0; col < 10; col++){
                 // get the obstacles boolean value from the Array of Arrays
-                if(algoritmo.getObstacles(row, col))
+                if(obstacles.getObstacles(row, col))
                     gc.fillRect(col * 50, row * 50, 50, 50);
             }
         }
@@ -74,19 +96,21 @@ public class Map extends Canvas implements Runnable{
         if(draw_path){
             try{
                 // set variables for vector's size
-                int i = 0, size = algoritmo.getVector().size();
+                int i = 0, size = algorithm.getVector().size();
 
                 gc2D.setColor(Color.RED);
                 gc2D.setStroke(new BasicStroke(3.0f));
 
                 // Draws the path using the points stored in the vector
                 while(i < size - 1){
-                    double x1 = (double) (algoritmo.getPathPoint(i).getRow() * 50) + 25;
-                    double y1 = (double) (algoritmo.getPathPoint(i).getCol() * 50) + 25;
-                    double x2 = (double) (algoritmo.getPathPoint(i + 1).getRow() * 50) + 25;
-                    double y2 = (double) (algoritmo.getPathPoint(i + 1).getCol() * 50) + 25;
+                    double x1 = (double) (algorithm.getPathPoint(i).getRow() * 50) + 25;
+                    double y1 = (double) (algorithm.getPathPoint(i).getCol() * 50) + 25;
+                    double x2 = (double) (algorithm.getPathPoint(i + 1).getRow() * 50) + 25;
+                    double y2 = (double) (algorithm.getPathPoint(i + 1).getCol() * 50) + 25;
                     gc2D.draw(new Line2D.Double(y1, x1, y2, x2));
                     Thread.sleep(150);
+                    if(algorithm.getPathPoint(i + 1).getRow() == 9 && algorithm.getPathPoint(i + 1).getCol() == 9)
+                        break;
                     i++;
                 }
             }catch(InterruptedException e){

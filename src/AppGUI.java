@@ -12,16 +12,19 @@ public class AppGUI extends JFrame implements ItemListener{
     private static JButton b_show;
 
     // Label declaration
-    private static JLabel label1, label2;
+    private static JLabel label1, label2, label3;
 
     // Multiple option panel declaration
-    private static JComboBox<String> select_combo;
+    private static JComboBox<String> select_combo, pattern_combo;
 
     // Map declaration
     private static Map map;
 
     // Algorithm declaration
     private static Algorithm algorithm;
+
+    // Obstacles declaration
+    private static Obstacles obstacles;
 
     /* Constructor of the AppGUI */
     // The constructor sets the window, initializes all the panels, textfields, button, labels, combobox and canvas;
@@ -36,8 +39,11 @@ public class AppGUI extends JFrame implements ItemListener{
         // set Algorithm
         algorithm = new Algorithm();
 
+        // set Obstacles
+        obstacles = new Obstacles();
+
         // Set Canvas
-        map = new Map(algorithm);
+        map = new Map(algorithm, obstacles);
 
         // Set Combo box and labels panel
         CBox_panel = new JPanel(new FlowLayout(0, 20, 5));
@@ -54,18 +60,34 @@ public class AppGUI extends JFrame implements ItemListener{
             "A* Search"
         };
 
+        // Array of strings of patterns combo list
+        String patterns_list[] = {
+            "Empty",
+            "Pattern 1",
+            "Pattern 2",
+            "Pattern 3"
+        };
+
         // Create combo list
         select_combo = new JComboBox<String>(algorithm_list);
         select_combo.addItemListener(this);
 
+        pattern_combo = new JComboBox<String>(patterns_list);
+        pattern_combo.addItemListener(this);
+
         // Create labels
         label1 = new JLabel("Select the algorithm: ");
         label2 = new JLabel("Breadth Search selected.");
+        label3 = new JLabel("Select obstacles pattern: ");
 
         // Add labels and combobox to Combo box panel
         CBox_panel.add(label1);
         CBox_panel.add(select_combo);
         CBox_panel.add(label2);
+
+        // Add pattern combo to button panel
+        button_panel.add(label3);
+        button_panel.add(pattern_combo);
 
         // Create and add button to button panel
         b_show = new JButton("Show Algorithm");
@@ -110,9 +132,23 @@ public class AppGUI extends JFrame implements ItemListener{
     }
 
     @Override
-    public void itemStateChanged(ItemEvent e) {
-        if (e.getSource() == select_combo){
+    public void itemStateChanged(ItemEvent e){
+        if(e.getSource() == select_combo){
             label2.setText(select_combo.getSelectedItem() + " selected");
+        }
+
+        if(e.getSource() == pattern_combo){
+            if(pattern_combo.getSelectedItem().toString() == "Empty"){
+                obstacles.setObstacles(0);
+            }else if(pattern_combo.getSelectedItem().toString() == "Pattern 1"){
+                obstacles.setObstacles(1);
+            }else if(pattern_combo.getSelectedItem().toString() == "Pattern 2"){
+                obstacles.setObstacles(2);
+            }else if(pattern_combo.getSelectedItem().toString() == "Pattern 3"){
+                obstacles.setObstacles(3);
+            }
+
+            map.repaint();
         }
     }
 
@@ -122,7 +158,7 @@ public class AppGUI extends JFrame implements ItemListener{
             setVisible(false);
             dispose();
         }
-    }
+    } 
 
     /* Main method to run the programm */
     public static void main(String[] args){
