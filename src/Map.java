@@ -98,19 +98,24 @@ public class Map extends Canvas implements Runnable, MouseListener{
                 // set variables for vector's size
                 int i = 0, size = algorithm.getVector().size();
 
-                gc2D.setColor(Color.RED);
+                gc2D.setColor(Color.YELLOW);
                 gc2D.setStroke(new BasicStroke(3.0f));
 
-                // Draws the path using the points stored in the vector
-                while(i < size - 1){
-                    double x1 = (double) (algorithm.getPathPoint(i).getRow() * 50) + 25;
-                    double y1 = (double) (algorithm.getPathPoint(i).getCol() * 50) + 25;
-                    double x2 = (double) (algorithm.getPathPoint(i + 1).getRow() * 50) + 25;
-                    double y2 = (double) (algorithm.getPathPoint(i + 1).getCol() * 50) + 25;
-                    gc2D.draw(new Line2D.Double(y1, x1, y2, x2));
+                // Draws the searched path using the points stored in the vector
+                while(i < size){
+                    // double x1 = (double) (algorithm.getPathPoint(i).getRow() * 50);
+                    // double y1 = (double) (algorithm.getPathPoint(i).getCol() * 50);
+                    // double x2 = (double) (algorithm.getPathPoint(i + 1).getRow() * 50);
+                    // double y2 = (double) (algorithm.getPathPoint(i + 1).getCol() * 50);
+
+                    double x = (double) (algorithm.getPathPoint(i).getRow() * 50);
+                    double y = (double) (algorithm.getPathPoint(i).getCol() * 50);
+                    gc2D.fill(new Rectangle.Double(y, x, 50, 50));
                     Thread.sleep(150);
-                    if(algorithm.getPathPoint(i + 1).getRow() == 9 && algorithm.getPathPoint(i + 1).getCol() == 9)
-                        break;
+
+                    // if(algorithm.getPathPoint(i + 1).getRow() == 9 && algorithm.getPathPoint(i + 1).getCol() == 9)
+                    //     break;
+
                     i++;
                 }
             }catch(InterruptedException e){
