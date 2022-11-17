@@ -99,7 +99,7 @@ public class Map extends Canvas implements Runnable, MouseListener{
                 int i = 0, size = algorithm.getVector().size();
 
                 gc2D.setColor(Color.YELLOW);
-                gc2D.setStroke(new BasicStroke(3.0f));
+                // gc2D.setStroke(new BasicStroke(3.0f));
 
                 // Draws the searched path using the points stored in the vector
                 while(i < size){
@@ -110,7 +110,9 @@ public class Map extends Canvas implements Runnable, MouseListener{
 
                     double x = (double) (algorithm.getPathPoint(i).getRow() * 50);
                     double y = (double) (algorithm.getPathPoint(i).getCol() * 50);
+
                     gc2D.fill(new Rectangle.Double(y, x, 50, 50));
+
                     Thread.sleep(150);
 
                     // if(algorithm.getPathPoint(i + 1).getRow() == 9 && algorithm.getPathPoint(i + 1).getCol() == 9)
@@ -118,6 +120,34 @@ public class Map extends Canvas implements Runnable, MouseListener{
 
                     i++;
                 }
+
+                gc2D.setColor(Color.RED);
+                gc2D.setStroke(new BasicStroke(3.0f));
+
+                algorithm.reverseVector();
+                algorithm.searchPath();
+
+                i = 0;  size = algorithm.getVector().size();
+
+                while(i < size){
+                    double x1 = (double) (algorithm.getPathPoint(i).getRow() * 50) + 25;
+                    double y1 = (double) (algorithm.getPathPoint(i).getCol() * 50) + 25;
+                    double x2 = (double) (algorithm.getPathPoint(i + 1).getRow() * 50) + 25;
+                    double y2 = (double) (algorithm.getPathPoint(i + 1).getCol() * 50) + 25;
+
+                    // double x = (double) (algorithm.getPathPoint(i).getRow() * 50);
+                    // double y = (double) (algorithm.getPathPoint(i).getCol() * 50);
+
+                    gc2D.draw(new Line2D.Double(y1, x1, y2, x2));
+
+                    Thread.sleep(150);
+
+                    if(algorithm.getPathPoint(i + 1).getRow() == 0 && algorithm.getPathPoint(i + 1).getCol() == 0)
+                        break;
+
+                    i++;
+                }
+
             }catch(InterruptedException e){
                 e.printStackTrace();
             }

@@ -9,10 +9,14 @@ public class Algorithm {
     private Obstacles obstacles;
     // Vector to store the path chosen by the algorythm (vector of type PathPoints)
     private Vector<PathPoints> vector;
+    // Points for start and finish positions
+    private PathPoints start_point, final_point;
 
     // CLASS CONSTRUCTOR
 	public Algorithm(){
         obstacles = new Obstacles();
+        start_point = new PathPoints(0, 0);
+        final_point = new PathPoints(9, 9);
     }
 
     // Returns the value of the vector in that index
@@ -21,8 +25,30 @@ public class Algorithm {
     }
 
     // Gets and return vector values
-    public Vector getVector(){
+    public Vector<PathPoints> getVector(){
         return new Vector<PathPoints>(this.vector);
+    }
+
+    // Flip vector content to draw the line to the start
+    public void reverseVector(){
+        Collections.reverse(vector);
+    }
+
+    // Removes far away points to create the final path
+    public void searchPath(){
+        for(int i = 0; i < vector.size() - 1; i++){
+            if( !((   vector.get(i).getRow() == vector.get(i + 1).getRow() && 
+                    vector.get(i).getCol() == vector.get(i + 1).getCol() + 1 )  || 
+                (   vector.get(i).getRow() == vector.get(i + 1).getRow() + 1 && 
+                    vector.get(i).getCol() == vector.get(i + 1).getCol() )      ||
+                    (   vector.get(i).getRow() == vector.get(i + 1).getRow() && 
+                    vector.get(i).getCol() == vector.get(i + 1).getCol() - 1 )  || 
+                (   vector.get(i).getRow() == vector.get(i + 1).getRow() - 1 && 
+                    vector.get(i).getCol() == vector.get(i + 1).getCol() ))){
+                        vector.remove(i + 1);
+                        i--;
+            }
+        }
     }
     
     // Compares the current point doesn't exists in the vector
@@ -84,22 +110,21 @@ public class Algorithm {
             row = current_point.getRow();
             col = current_point.getCol();
 
-            // If the current point is the end exits the cycle
-            if(current_point.getRow() == 9 && current_point.getCol() == 9){
-                queue.clear();      // Empty queue
-                break;
-            }
-
             /* Search Upwards */
             // Looks if Index in range AND if there's not an obstacle in that index
             if(row > 0 && !obstacles.getObstacles(row - 1, col)){
                 // Creates a point above the current position
                 new_point = new PathPoints(current_point.getRow() - 1, current_point.getCol());
-
+                
                 // If the point was added before, it doesn't add again
                 if(!compareInVector(new_point)){
                     queue.add(new_point);
                     vector.add(new_point);
+                }
+
+                if(new_point.getRow() == 9 && new_point.getCol() == 9){
+                    queue.clear();      // Empty queue
+                    break;
                 }
             }
 
@@ -108,11 +133,16 @@ public class Algorithm {
             if(col > 0 && !obstacles.getObstacles(row, col - 1)){
                 // Creates a point to the left of the current position
                 new_point = new PathPoints(current_point.getRow(), current_point.getCol() - 1);
-
+                
                 // If the point was added before, it doesn't add again
                 if(!compareInVector(new_point)){
                     queue.add(new_point);
                     vector.add(new_point);
+                }
+
+                if(new_point.getRow() == 9 && new_point.getCol() == 9){
+                    queue.clear();      // Empty queue
+                    break;
                 }
             }
 
@@ -121,11 +151,16 @@ public class Algorithm {
             if(row < 9 && !obstacles.getObstacles(row + 1, col)){
                 // Creates a point under the current position
                 new_point = new PathPoints(current_point.getRow() + 1, current_point.getCol());
-
+                
                 // If the point was added before, it doesn't add again
                 if(!compareInVector(new_point)){
                     queue.add(new_point);
                     vector.add(new_point);
+                }
+
+                if(new_point.getRow() == 9 && new_point.getCol() == 9){
+                    queue.clear();      // Empty queue
+                    break;
                 }
             }
 
@@ -134,11 +169,16 @@ public class Algorithm {
             if(col < 9 && !obstacles.getObstacles(row, col + 1)){
                 // Creates a point to the right of the current position
                 new_point = new PathPoints(current_point.getRow(), current_point.getCol() + 1);
-
+                
                 // If the point was added before, it doesn't add again
                 if(!compareInVector(new_point)){
                     queue.add(new_point);
                     vector.add(new_point);
+                }
+
+                if(new_point.getRow() == 9 && new_point.getCol() == 9){
+                    queue.clear();      // Empty queue
+                    break;
                 }
             }
         }
@@ -217,7 +257,6 @@ public class Algorithm {
             if(col < 9 && !obstacles.getObstacles(row, col + 1)){
                 // Creates a point to the right of the current position
                 new_point = new PathPoints(current_point.getRow(), current_point.getCol() + 1);
-                vector.add(current_point);
 
                 // If the point was added before, it doesn't add again
                 if(!compareInVector(new_point)){
