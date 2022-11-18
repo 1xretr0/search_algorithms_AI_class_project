@@ -3,13 +3,13 @@ import java.awt.event.*;
 import javax.swing.*;
 
 // this class manages the whole interface. could be invoked in the main flow at app class
-public class AppGUI extends JFrame implements ItemListener{
+public class AppGUI extends JFrame implements ItemListener {
     /* Variables declaration */
     // Global button panel and section panels declaration
-    private static JPanel CBox_panel, button_panel;
+    private static JPanel CBox_panel, button_panel1, button_panel2, buttons;
 
     // Button declaration
-    private static JButton b_show;
+    private static JButton b_show, b_set_start, b_set_finish;
 
     // Label declaration
     private static JLabel label1, label2, label3;
@@ -27,13 +27,14 @@ public class AppGUI extends JFrame implements ItemListener{
     private static Obstacles obstacles;
 
     /* Constructor of the AppGUI */
-    // The constructor sets the window, initializes all the panels, textfields, button, labels, combobox and canvas;
+    // The constructor sets the window, initializes all the panels, textfields,
+    // button, labels, combobox and canvas;
     // and adds all the components to the window
-    public AppGUI(){
+    public AppGUI() {
         // Set window
         super("Search Algorithms");
         setLayout(new BorderLayout());
-        setSize(517, 611);
+        setSize(517, 661);
         addWindowListener(new CW());
 
         // set Algorithm
@@ -48,24 +49,26 @@ public class AppGUI extends JFrame implements ItemListener{
         // Set Combo box and labels panel
         CBox_panel = new JPanel(new FlowLayout(0, 20, 5));
 
-        // Set button panel
-        button_panel = new JPanel(new FlowLayout(1));
+        // Set buttons panel
+        buttons = new JPanel(new GridLayout(2, 1));
+        button_panel1 = new JPanel(new FlowLayout(1));
+        button_panel2 = new JPanel(new FlowLayout(1, 100, 0));
 
         // Array of strings of select combo list
         String algorithm_list[] = {
-            "Breadth Search",
-            "Depth Search",
-            "Hill Climbing Search",
-            "Best First Search",
-            "A* Search"
+                "Breadth Search",
+                "Depth Search",
+                "Hill Climbing Search",
+                "Best First Search",
+                "A* Search"
         };
 
         // Array of strings of patterns combo list
         String patterns_list[] = {
-            "Empty",
-            "Pattern 1",
-            "Pattern 2",
-            "Pattern 3"
+                "Empty",
+                "Pattern 1",
+                "Pattern 2",
+                "Pattern 3"
         };
 
         // Create combo list
@@ -86,13 +89,21 @@ public class AppGUI extends JFrame implements ItemListener{
         CBox_panel.add(label2);
 
         // Add pattern combo to button panel
-        button_panel.add(label3);
-        button_panel.add(pattern_combo);
+        button_panel1.add(label3);
+        button_panel1.add(pattern_combo);
+        // Create and add set buttons to button2 panel
+        b_set_start = new JButton("Set Start");
+        b_set_start.addActionListener(new BotonSetStart());
+        button_panel2.add(b_set_start);
 
-        // Create and add button to button panel
+        b_set_finish = new JButton("Set Finish");
+        b_set_finish.addActionListener(new BotonSetFinish());
+        button_panel2.add(b_set_finish);
+
+        // Create and add show button to button1 panel
         b_show = new JButton("Show Algorithm");
         b_show.addActionListener(new BotonShow()); // add function call
-        button_panel.add(b_show);
+        button_panel1.add(b_show);
 
         // Add Combo box panel to display (top)
         add(CBox_panel, "North");
@@ -100,8 +111,12 @@ public class AppGUI extends JFrame implements ItemListener{
         // Add map canvas to display (middle)
         add(map, "Center");
 
-        // Add button panel to display (bottom)
-        add(button_panel, "South");
+        // Add buttons (1 and 2) to buttons pannel
+        buttons.add(button_panel2);
+        buttons.add(button_panel1);
+
+        // Add buttons panel to display (bottom)
+        add(buttons, "South");
 
         // Display GUI
         setResizable(false);
@@ -109,8 +124,8 @@ public class AppGUI extends JFrame implements ItemListener{
 
     }
 
-    private class BotonShow implements ActionListener{
-        public void actionPerformed(ActionEvent e){
+    private class BotonShow implements ActionListener {
+        public void actionPerformed(ActionEvent e) {
             String choice = select_combo.getSelectedItem().toString();
 
             // Calls the method depending on the chosen algorithm
@@ -130,20 +145,32 @@ public class AppGUI extends JFrame implements ItemListener{
         }
     }
 
+    private class BotonSetStart implements ActionListener {
+        public void actionPerformed(ActionEvent e) {
+            algorithm.setTrueIsStartSet();
+        }
+    }
+
+    private class BotonSetFinish implements ActionListener {
+        public void actionPerformed(ActionEvent e) {
+            algorithm.setTrueIsFinishSet();
+        }
+    }
+
     @Override
-    public void itemStateChanged(ItemEvent e){
-        if(e.getSource() == select_combo){
+    public void itemStateChanged(ItemEvent e) {
+        if (e.getSource() == select_combo) {
             label2.setText(select_combo.getSelectedItem() + " selected");
         }
 
-        if(e.getSource() == pattern_combo){
-            if(pattern_combo.getSelectedItem().toString() == "Empty"){
+        if (e.getSource() == pattern_combo) {
+            if (pattern_combo.getSelectedItem().toString() == "Empty") {
                 obstacles.setObstacles(0);
-            }else if(pattern_combo.getSelectedItem().toString() == "Pattern 1"){
+            } else if (pattern_combo.getSelectedItem().toString() == "Pattern 1") {
                 obstacles.setObstacles(1);
-            }else if(pattern_combo.getSelectedItem().toString() == "Pattern 2"){
+            } else if (pattern_combo.getSelectedItem().toString() == "Pattern 2") {
                 obstacles.setObstacles(2);
-            }else if(pattern_combo.getSelectedItem().toString() == "Pattern 3"){
+            } else if (pattern_combo.getSelectedItem().toString() == "Pattern 3") {
                 obstacles.setObstacles(3);
             }
 
@@ -152,15 +179,15 @@ public class AppGUI extends JFrame implements ItemListener{
     }
 
     // Class to manage window close button
-    private class CW extends WindowAdapter{
-        public void windowClosing(WindowEvent e){
+    private class CW extends WindowAdapter {
+        public void windowClosing(WindowEvent e) {
             setVisible(false);
             dispose();
         }
-    } 
+    }
 
     /* Main method to run the programm */
-    public static void main(String[] args){
+    public static void main(String[] args) {
         AppGUI gui = new AppGUI();
     }
 }
