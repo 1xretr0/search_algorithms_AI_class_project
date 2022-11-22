@@ -94,10 +94,12 @@ public class AppGUI extends JFrame implements ItemListener {
         // Create and add set buttons to button2 panel
         b_set_start = new JButton("Set Start");
         b_set_start.addActionListener(new BotonSetStart());
+        b_set_start.addItemListener(this);
         button_panel2.add(b_set_start);
 
         b_set_finish = new JButton("Set Finish");
         b_set_finish.addActionListener(new BotonSetFinish());
+        b_set_finish.addItemListener(this);
         button_panel2.add(b_set_finish);
 
         // Create and add show button to button1 panel
@@ -166,12 +168,20 @@ public class AppGUI extends JFrame implements ItemListener {
         if (e.getSource() == pattern_combo) {
             if (pattern_combo.getSelectedItem().toString() == "Empty") {
                 obstacles.setObstacles(0);
+                algorithm.setStartPoint(0, 0);
+                algorithm.setFinishPoint(9, 9);
             } else if (pattern_combo.getSelectedItem().toString() == "Pattern 1") {
                 obstacles.setObstacles(1);
+                algorithm.setStartPoint(0, 0);
+                algorithm.setFinishPoint(9, 9);
             } else if (pattern_combo.getSelectedItem().toString() == "Pattern 2") {
                 obstacles.setObstacles(2);
+                algorithm.setStartPoint(0, 0);
+                algorithm.setFinishPoint(9, 9);
             } else if (pattern_combo.getSelectedItem().toString() == "Pattern 3") {
                 obstacles.setObstacles(3);
+                algorithm.setStartPoint(0, 0);
+                algorithm.setFinishPoint(9, 9);
             }
 
             map.repaint();

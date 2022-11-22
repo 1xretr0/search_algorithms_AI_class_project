@@ -25,27 +25,27 @@ public class Algorithm {
     }
 
     /* Setters and Getters for start and finish booleans to true */
-    public void setTrueIsStartSet(){
+    public void setTrueIsStartSet() {
         isStartSet = true;
     }
-    
-    public void setFalseIsStartSet(){
+
+    public void setFalseIsStartSet() {
         isStartSet = false;
     }
 
-    public boolean getIsStartSet(){
+    public boolean getIsStartSet() {
         return isStartSet;
     }
 
-    public void setTrueIsFinishSet(){
+    public void setTrueIsFinishSet() {
         isFinishSet = true;
     }
 
-    public void setFalseIsFinishSet(){
-        isFinishSet = true;
+    public void setFalseIsFinishSet() {
+        isFinishSet = false;
     }
 
-    public boolean getIsFinishSet(){
+    public boolean getIsFinishSet() {
         return isFinishSet;
     }
 
@@ -164,6 +164,12 @@ public class Algorithm {
             PathPoints current_point = queue.remove();
             row = current_point.getRow();
             col = current_point.getCol();
+
+            // If the current point is the end exits the cycle
+            if (current_point.getRow() == finish_point.getRow() && current_point.getCol() == finish_point.getCol()) {
+                queue.clear(); // Empty stack
+                break;
+            }
 
             /* Search Upwards */
             // Looks if Index in range AND if there's not an obstacle in that index
@@ -351,6 +357,12 @@ public class Algorithm {
             row = current_point.getRow();
             col = current_point.getCol();
 
+            // If the current point is the end exits the cycle
+            if (current_point.getRow() == finish_point.getRow() && current_point.getCol() == finish_point.getCol()) {
+                evaluated_points.clear();
+                break;
+            }
+
             /* Search Upwards */
             // Looks if Index in range AND if there's not an obstacle in that index
             if (row > 0 && !obstacles.getObstacles(row - 1, col)) {
@@ -502,7 +514,7 @@ public class Algorithm {
 
         // set, evaluate and add initial point
         PathPoints initial_point = new PathPoints(start_point.getRow(), start_point.getCol());
-        evaluated_points.put(initial_point, distance(initial_point) + 20);
+        evaluated_points.put(initial_point, distance(initial_point));
 
         boolean isFirst = true;
 
@@ -535,7 +547,7 @@ public class Algorithm {
                 // If the point was added before, it doesn't add again
                 if (!compareInVector(new_point) && !compareInHashmap(new_point, evaluated_points)) {
                     evaluated_points.put(new_point,
-                            heuristic_distance(distance(new_point), manhattan_function(current_point, new_point)));
+                            heuristic_distance(distance(new_point), manhattan_function(current_point)));
                 }
             }
 
@@ -548,7 +560,7 @@ public class Algorithm {
                 // If the point was added before, it doesn't add again
                 if (!compareInVector(new_point) && !compareInHashmap(new_point, evaluated_points)) {
                     evaluated_points.put(new_point,
-                            heuristic_distance(distance(new_point), manhattan_function(current_point, new_point)));
+                            heuristic_distance(distance(new_point), manhattan_function(current_point)));
                 }
             }
 
@@ -561,7 +573,7 @@ public class Algorithm {
                 // If the point was added before, it doesn't add again
                 if (!compareInVector(new_point) && !compareInHashmap(new_point, evaluated_points)) {
                     evaluated_points.put(new_point,
-                            heuristic_distance(distance(new_point), manhattan_function(current_point, new_point)));
+                            heuristic_distance(distance(new_point), manhattan_function(current_point)));
                 }
             }
 
@@ -574,7 +586,7 @@ public class Algorithm {
                 // If the point was added before, it doesn't add again
                 if (!compareInVector(new_point) && !compareInHashmap(new_point, evaluated_points)) {
                     evaluated_points.put(new_point,
-                            heuristic_distance(distance(new_point), manhattan_function(current_point, new_point)));
+                            heuristic_distance(distance(new_point), manhattan_function(current_point)));
                 }
             }
         }
@@ -584,20 +596,20 @@ public class Algorithm {
     private int distance(PathPoints point) {
         // Evaluation is how close the point is to the end, lower distance equals better
         // evaluation
-        int row_dist = 9 - point.getRow();
-        int col_dist = 9 - point.getCol();
+        int row_dist = Math.abs(finish_point.getRow() - point.getRow());
+        int col_dist = Math.abs(finish_point.getCol() - point.getCol());
 
         return row_dist + col_dist;
     }
 
-    private int manhattan_function(PathPoints current_point, PathPoints new_point) {
+    private int manhattan_function(PathPoints current_point) {
         // As the AI doesn't go diagonally, we'll be using manhattan formula to get the
         // heuristic values
-        // d(x, y) = |x1 - y1| + |x2 - y2|
-        int current_point_value = Math.abs(current_point.getRow() - current_point.getCol());
-        int new_point_value = Math.abs(new_point.getRow() - new_point.getCol());
+        // d(x, y) = |x1 - x2| + |y1 - y2|
+        int x_value = Math.abs(current_point.getRow() - finish_point.getRow());
+        int y_value = Math.abs(current_point.getCol() - finish_point.getCol());
 
-        return current_point_value + new_point_value;
+        return x_value + y_value;
     }
 
     private int heuristic_distance(int distance, int manhattan_function) {

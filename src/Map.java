@@ -160,15 +160,14 @@ public class Map extends Canvas implements Runnable, MouseListener {
                 i = 0;
                 size = algorithm.getVector().size();
 
+                gc2D.fill(new Ellipse2D.Double((algorithm.getFinishPoint().getCol() * 50) + 20,
+                        (algorithm.getFinishPoint().getRow() * 50) + 20, 10, 10));
                 // Draw Line
                 while (i < size - 1) {
                     double x1 = (double) (algorithm.getPathPoint(i).getRow() * 50) + 25;
                     double y1 = (double) (algorithm.getPathPoint(i).getCol() * 50) + 25;
                     double x2 = (double) (algorithm.getPathPoint(i + 1).getRow() * 50) + 25;
                     double y2 = (double) (algorithm.getPathPoint(i + 1).getCol() * 50) + 25;
-
-                    // double x = (double) (algorithm.getPathPoint(i).getRow() * 50);
-                    // double y = (double) (algorithm.getPathPoint(i).getCol() * 50);
 
                     gc2D.draw(new Line2D.Double(y1, x1, y2, x2));
 
@@ -179,6 +178,9 @@ public class Map extends Canvas implements Runnable, MouseListener {
 
                     i++;
                 }
+
+                gc2D.fill(new Ellipse2D.Double((algorithm.getStartPoint().getCol() * 50) + 20,
+                        (algorithm.getStartPoint().getRow() * 50) + 20, 10, 10));
 
             } catch (InterruptedException e) {
                 e.printStackTrace();
