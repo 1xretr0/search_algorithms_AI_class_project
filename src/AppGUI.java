@@ -198,6 +198,6 @@ public class AppGUI extends JFrame implements ItemListener {
 
     /* Main method to run the programm */
     public static void main(String[] args) {
-        AppGUI gui = new AppGUI();
+        new AppGUI();
     }
 }

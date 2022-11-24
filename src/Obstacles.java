@@ -243,10 +243,12 @@ public class Obstacles {
         }
     }
 
-    // Set obstacles by hand
+    // Set obstacles by hand (With the Mouse Listener)
     public void setObstacles(int row, int col) {
+        // If there was an obstacle, it deletes it
         if (obstacles[row][col]) {
             obstacles[row][col] = false;
+            // If there wasn't an obstacle, it adds it
         } else if (!obstacles[row][col]) {
             obstacles[row][col] = true;
         }

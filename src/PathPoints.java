@@ -1,4 +1,4 @@
-// 
+// Class that stores all the atributes and methods used to store points values
 public class PathPoints {
     private int Row, Col;
 
@@ -21,9 +21,5 @@ public class PathPoints {
 
     public int getCol() {
         return Col;
-    }
-
-    public String toString() {
-        return "(" + Row + ", " + Col + ")";
     }
 }

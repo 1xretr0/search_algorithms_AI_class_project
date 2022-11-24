@@ -547,7 +547,7 @@ public class Algorithm {
                 // If the point was added before, it doesn't add again
                 if (!compareInVector(new_point) && !compareInHashmap(new_point, evaluated_points)) {
                     evaluated_points.put(new_point,
-                            heuristic_distance(distance(new_point), manhattan_function(current_point)));
+                            heuristic_distance(distance(new_point), manhattan_function(new_point)));
                 }
             }
 
@@ -560,7 +560,7 @@ public class Algorithm {
                 // If the point was added before, it doesn't add again
                 if (!compareInVector(new_point) && !compareInHashmap(new_point, evaluated_points)) {
                     evaluated_points.put(new_point,
-                            heuristic_distance(distance(new_point), manhattan_function(current_point)));
+                            heuristic_distance(distance(new_point), manhattan_function(new_point)));
                 }
             }
 
@@ -573,7 +573,7 @@ public class Algorithm {
                 // If the point was added before, it doesn't add again
                 if (!compareInVector(new_point) && !compareInHashmap(new_point, evaluated_points)) {
                     evaluated_points.put(new_point,
-                            heuristic_distance(distance(new_point), manhattan_function(current_point)));
+                            heuristic_distance(distance(new_point), manhattan_function(new_point)));
                 }
             }
 
@@ -586,28 +586,28 @@ public class Algorithm {
                 // If the point was added before, it doesn't add again
                 if (!compareInVector(new_point) && !compareInHashmap(new_point, evaluated_points)) {
                     evaluated_points.put(new_point,
-                            heuristic_distance(distance(new_point), manhattan_function(current_point)));
+                            heuristic_distance(distance(new_point), manhattan_function(new_point)));
                 }
             }
         }
     }
 
     // EVALUATION FUNCTIONS
-    private int distance(PathPoints point) {
+    private int distance(PathPoints new_point) {
         // Evaluation is how close the point is to the end, lower distance equals better
         // evaluation
-        int row_dist = Math.abs(finish_point.getRow() - point.getRow());
-        int col_dist = Math.abs(finish_point.getCol() - point.getCol());
+        int row_dist = Math.abs(finish_point.getRow() - new_point.getRow());
+        int col_dist = Math.abs(finish_point.getCol() - new_point.getCol());
 
         return row_dist + col_dist;
     }
 
-    private int manhattan_function(PathPoints current_point) {
+    private int manhattan_function(PathPoints new_point) {
         // As the AI doesn't go diagonally, we'll be using manhattan formula to get the
         // heuristic values
-        // d(x, y) = |x1 - x2| + |y1 - y2|
-        int x_value = Math.abs(current_point.getRow() - finish_point.getRow());
-        int y_value = Math.abs(current_point.getCol() - finish_point.getCol());
+        // d(x, y) = |x2 - x1| + |y2 - y1|
+        int x_value = Math.abs(new_point.getRow() - start_point.getRow());
+        int y_value = Math.abs(new_point.getCol() - start_point.getCol());
 
         return x_value + y_value;
     }

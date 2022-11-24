@@ -5,8 +5,6 @@ import java.awt.geom.*;
 import java.awt.event.*;
 import java.lang.Math;
 
-import javax.swing.text.AttributeSet.ColorAttribute;
-
 public class Map extends Canvas implements Runnable, MouseListener {
     /* Variables declaration */
     // Boolean to draw vector points on paint method (false)
@@ -36,24 +34,31 @@ public class Map extends Canvas implements Runnable, MouseListener {
     public void mouseExited(MouseEvent e) {
     }
 
+    // Waits for a Click Mouse Event
     public void mousePressed(MouseEvent e) {
-        if (algorithm.getIsStartSet()) {
-            if (!obstacles.getObstacles(Math.round(e.getY() / 50), Math.round(e.getX() / 50)))
-                algorithm.setStartPoint(Math.round(e.getY() / 50), Math.round(e.getX() / 50));
-            algorithm.setFalseIsStartSet();
+        try {
+            // Sets start if the start button was pressed
+            if (algorithm.getIsStartSet()) {
+                if (!obstacles.getObstacles(Math.round(e.getY() / 50), Math.round(e.getX() / 50)))
+                    algorithm.setStartPoint(Math.round(e.getY() / 50), Math.round(e.getX() / 50));
+                algorithm.setFalseIsStartSet();
 
-        } else if (algorithm.getIsFinishSet()) {
-            if (!obstacles.getObstacles(Math.round(e.getY() / 50), Math.round(e.getX() / 50)))
-                algorithm.setFinishPoint(Math.round(e.getY() / 50), Math.round(e.getX() / 50));
-            algorithm.setFalseIsFinishSet();
+            // Sets finish if the finish button was pressed
+            } else if (algorithm.getIsFinishSet()) {
+                if (!obstacles.getObstacles(Math.round(e.getY() / 50), Math.round(e.getX() / 50)))
+                    algorithm.setFinishPoint(Math.round(e.getY() / 50), Math.round(e.getX() / 50));
+                algorithm.setFalseIsFinishSet();
 
-        } else if (!((algorithm.getStartPoint().getRow() == Math.round(e.getY() / 50)
-                && algorithm.getStartPoint().getCol() == Math.round(e.getX() / 50))
-                || (algorithm.getFinishPoint().getRow() == Math.round(e.getY() / 50)
-                        && algorithm.getFinishPoint().getCol() == Math.round(e.getX() / 50))))
-            obstacles.setObstacles(Math.round(e.getY() / 50), Math.round(e.getX() / 50));
+            // Sets an obstacle if no button was pressed
+            } else if (!((algorithm.getStartPoint().getRow() == Math.round(e.getY() / 50)
+                    && algorithm.getStartPoint().getCol() == Math.round(e.getX() / 50))
+                    || (algorithm.getFinishPoint().getRow() == Math.round(e.getY() / 50)
+                            && algorithm.getFinishPoint().getCol() == Math.round(e.getX() / 50))))
+                obstacles.setObstacles(Math.round(e.getY() / 50), Math.round(e.getX() / 50));
 
-        repaint();
+            repaint();
+        } catch (ArrayIndexOutOfBoundsException ex) {
+        }
     }
 
     public void mouseReleased(MouseEvent e) {
@@ -160,8 +165,9 @@ public class Map extends Canvas implements Runnable, MouseListener {
                 i = 0;
                 size = algorithm.getVector().size();
 
-                gc2D.fill(new Ellipse2D.Double((algorithm.getFinishPoint().getCol() * 50) + 20,
-                        (algorithm.getFinishPoint().getRow() * 50) + 20, 10, 10));
+                // Draws Circle an the start of path
+                gc2D.fill(new Ellipse2D.Double((algorithm.getPathPoint(i).getCol() * 50) + 20,
+                        (algorithm.getPathPoint(i).getRow() * 50) + 20, 10, 10));
                 // Draw Line
                 while (i < size - 1) {
                     double x1 = (double) (algorithm.getPathPoint(i).getRow() * 50) + 25;
@@ -179,6 +185,7 @@ public class Map extends Canvas implements Runnable, MouseListener {
                     i++;
                 }
 
+                // Draws circle at the end of path
                 gc2D.fill(new Ellipse2D.Double((algorithm.getStartPoint().getCol() * 50) + 20,
                         (algorithm.getStartPoint().getRow() * 50) + 20, 10, 10));
 
