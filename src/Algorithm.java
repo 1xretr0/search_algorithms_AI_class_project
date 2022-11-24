@@ -7,6 +7,7 @@ import java.lang.Math;
 public class Algorithm {
     // Array of Arrays to store obstacles positions
     private Obstacles obstacles;
+
     // Vector to store the path chosen by the algorythm (vector of type PathPoints)
     private Vector<PathPoints> vector;
 
@@ -98,7 +99,6 @@ public class Algorithm {
                 i--;
             }
         }
-        return false;
     }
 
     // Compares the current point doesn't exists in the vector

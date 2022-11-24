@@ -238,7 +238,6 @@ public class Obstacles {
                 obstacles[8][7] = true;
                 obstacles[9][0] = true;
                 obstacles[9][1] = true;
-
                 break;
             }
         }

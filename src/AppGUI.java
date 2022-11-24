@@ -71,14 +71,6 @@ public class AppGUI extends JFrame implements ItemListener {
                 "Pattern 3"
         };
 
-        // Array of strings of patterns combo list
-        String patterns_list[] = {
-            "Empty",
-            "Pattern 1",
-            "Pattern 2",
-            "Pattern 3"
-        };
-
         // Create combo list
         select_combo = new JComboBox<String>(algorithm_list);
         select_combo.addItemListener(this);
@@ -139,18 +131,17 @@ public class AppGUI extends JFrame implements ItemListener {
             String choice = select_combo.getSelectedItem().toString();
 
             // Calls the method depending on the chosen algorithm
-            // if (choice == "Breadth Search")
-            //     algorithm.breadthSearch();
-            // else if (choice == "Depth Search")
-            //     algorithm.depthSearch();
-            // else if (choice == "Hill Climbing Search")
-            //     algorithm.hillSearch();
-            // else if (choice == "Best First Search")
-            //     algorithm.bestSearch();
-            // else if (choice == "A* Search")
-            //     algorithm.aSearch();
+            if (choice == "Breadth Search")
+                algorithm.breadthSearch();
+            else if (choice == "Depth Search")
+                algorithm.depthSearch();
+            else if (choice == "Hill Climbing Search")
+                algorithm.hillSearch();
+            else if (choice == "Best First Search")
+                algorithm.bestSearch();
+            else if (choice == "A* Search")
+                algorithm.aSearch();
 
-            algorithm.findPath();
             // draw Path method to draw the path line
             map.drawPath();
         }
@@ -203,7 +194,7 @@ public class AppGUI extends JFrame implements ItemListener {
             setVisible(false);
             dispose();
         }
-    } 
+    }
 
     /* Main method to run the programm */
     public static void main(String[] args) {
