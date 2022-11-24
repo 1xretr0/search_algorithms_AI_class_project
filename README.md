@@ -1,6 +1,8 @@
 # search_algorithms_AI_class_project
 This repo contains the files of an example projecct to show some search Algorithms related with Artificial Intelligence UPAEP class.
 
+*Unfinished and not updated readme documentation.*
+
 ## Concept
 The program displays a simple GUI showing a map with some obstacles in order to visualize how the selected search algorithm works and finds a solution. In this case, the solution is the path to exit the map, avoiding the obstacles.
 
