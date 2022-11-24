@@ -10,6 +10,7 @@ public class Map extends Canvas implements Runnable, MouseListener {
     // Boolean to draw vector points on paint method (false)
     private boolean draw_path = false;
 
+
     // Thread to convert Canvas into a Thread for the GUI
     private Thread thread;
 
@@ -27,6 +28,19 @@ public class Map extends Canvas implements Runnable, MouseListener {
 
     public void mouseClicked(MouseEvent e) {
     }
+    
+    public void mouseClicked(MouseEvent e) {
+    }  
+    public void mouseEntered(MouseEvent e) {
+    }  
+    public void mouseExited(MouseEvent e) {
+    }  
+    public void mousePressed(MouseEvent e) {
+        obstacles.setObstacles(Math.round(e.getY()/50), Math.round(e.getX()/50));
+        repaint();
+    }  
+    public void mouseReleased(MouseEvent e) {
+    } 
 
     public void mouseEntered(MouseEvent e) {
     }
@@ -174,7 +188,7 @@ public class Map extends Canvas implements Runnable, MouseListener {
                     double y1 = (double) (algorithm.getPathPoint(i).getCol() * 50) + 25;
                     double x2 = (double) (algorithm.getPathPoint(i + 1).getRow() * 50) + 25;
                     double y2 = (double) (algorithm.getPathPoint(i + 1).getCol() * 50) + 25;
-
+                    
                     gc2D.draw(new Line2D.Double(y1, x1, y2, x2));
 
                     Thread.sleep(150);
