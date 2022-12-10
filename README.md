@@ -23,4 +23,5 @@ The program displays a simple GUI showing a map with obstacles in order to visua
 ```
 javac AppGUI.java
 java AppGUI
-
+```
+![image](https://user-images.githubusercontent.com/65722993/206825065-2d73d246-fb25-4e06-b16a-3a9d84bd632d.png)
